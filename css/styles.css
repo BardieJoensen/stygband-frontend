@@ -730,12 +730,16 @@ textarea {
     max-height: 90vh;
     min-width: 10rem;
     min-height: 10rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
 }
 
 .lightbox-image {
     width: 100%;
     height: auto;
-    max-height: 90vh;
+    max-height: calc(90vh - 3rem);
     object-fit: contain;
     box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
     transition: opacity 0.3s ease;
@@ -744,6 +748,39 @@ textarea {
 
 .lightbox-image.loaded {
     opacity: 1;
+}
+
+.lightbox-meta {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: var(--space-sm);
+    padding-inline: var(--space-sm);
+    color: var(--color-text-primary);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.lightbox-meta[hidden] {
+    display: none;
+}
+
+.lightbox-caption,
+.lightbox-photographer {
+    margin: 0;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65);
+    overflow-wrap: anywhere;
+}
+
+.lightbox-caption {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.lightbox-photographer {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
 }
 
 /* Close button */

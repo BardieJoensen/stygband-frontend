@@ -20,12 +20,12 @@ function trapFocus(overlay) {
                 lastElement.focus();
                 e.preventDefault();
             }
-        } else {
-            // Tab: moving forwards
-            if (document.activeElement === lastElement) {
-                firstElement.focus();
-                e.preventDefault();
-            }
+        }
+
+        // Tab: moving forwards
+        if (!e.shiftKey && document.activeElement === lastElement) {
+            firstElement.focus();
+            e.preventDefault();
         }
     });
 }
@@ -46,6 +46,10 @@ export function createLightbox() {
                     <rect x="3" y="3" width="18" height="18" rx="2"/>
                     <line x1="4" y1="4" x2="20" y2="20"/>
                 </svg>
+            </div>
+            <div class="lightbox-meta" aria-live="polite">
+                <p class="lightbox-caption"></p>
+                <p class="lightbox-photographer"></p>
             </div>
             <button class="lightbox-close" aria-label="Close">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -135,6 +139,9 @@ function showImage(index) {
 
     const img = document.querySelector('.lightbox-image');
     const fallbackOverlay = document.querySelector('.lightbox-fallback-overlay');
+    const meta = document.querySelector('.lightbox-meta');
+    const captionEl = document.querySelector('.lightbox-caption');
+    const photographerEl = document.querySelector('.lightbox-photographer');
 
     // Reset fallback state
     fallbackOverlay.style.display = "none";
@@ -144,6 +151,13 @@ function showImage(index) {
     const photo = photos[index];
     img.src = `${BASE_URL}${photo.url}`;
     img.alt = photo.caption || 'gallery photo';
+
+    const captionText = photo.caption?.trim() || '';
+    const photographerText = photo.photographer?.trim() || '';
+
+    captionEl.textContent = captionText;
+    photographerEl.textContent = photographerText ? `Photo by ${photographerText}` : '';
+    meta.hidden = !captionText && !photographerText;
 
     img.onerror = () => {
         console.error("Lightbox image failed:", img.src);
