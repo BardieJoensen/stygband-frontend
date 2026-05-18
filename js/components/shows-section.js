@@ -7,7 +7,7 @@ export function renderShowsSection(upcomingShows, pastShows) {
     
     const heading = document.createElement('h2');
     heading.className = 'section-heading';
-    heading.textContent = 'Tour Dates';
+    heading.textContent = 'Shows';
     section.appendChild(heading);
 
     const toggleSection = document.createElement('div');

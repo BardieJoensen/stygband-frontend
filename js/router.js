@@ -14,7 +14,7 @@ const routes = {
 };
 
 const anchorRoutes = {
-    '/tour': 'tour',
+    '/shows': 'shows',
     '/contact': 'contact',
 };
 

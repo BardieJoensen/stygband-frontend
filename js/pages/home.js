@@ -26,7 +26,7 @@ export async function render(container, params) {
     ]);
 
     const showsSection = renderShowsSection(upcomingShows, pastShows);
-    showsSection.id = 'tour';
+    showsSection.id = 'shows';
     container.appendChild(showsSection);
 
     const photoSection = renderPhotoSection(photos);
