@@ -1,10 +1,14 @@
+import { isLoggedIn } from "./auth.js";
 import { renderHeader } from "./components/header.js";
 import { renderFooter } from "./components/footer.js";
 
 const routes = {
-    '/': { module: './pages/home.js' },
-    '/photos': { module: './pages/photos.js' },
-    '/about': { module: './pages/about.js' },
+    '/': { module: './pages/home.js', auth: false },
+    '/photos': { module: './pages/photos.js', auth: false },
+    '/about': { module: './pages/about.js', auth: false },
+    "/admin": { module: "./pages/login.js", auth: false },
+    "/admin/login": { module: "./pages/login.js", auth: false },
+    "/admin/dashboard": { module: "./pages/dashboard.js", auth: true }
 };
 
 // Paths that live as sections on the home page rather than separate routes.
@@ -15,6 +19,12 @@ const anchorRoutes = {
 
 async function renderPage(path, params) {
     const route = routes[path] || routes['/'];
+
+    if (route.auth && !isLoggedIn()) {
+        window.location.hash = "#/admin";
+        return;
+    }
+
     try {
         const { default: page } = await import(route.module);
         const content = document.getElementById('content');

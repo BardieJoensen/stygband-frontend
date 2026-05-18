@@ -105,3 +105,26 @@ export async function postJson(endpoint, data, method = "POST") {
         body: JSON.stringify(data)
     });
 }
+
+// -------------------------------
+// Admin JSON helpers
+// -------------------------------
+
+export function authFetchJson(endpoint) {
+    return request(endpoint, {}, true);
+}
+
+export function authPostJson(endpoint, data, method = "POST") {
+    return request(endpoint, {
+        method,
+        body: JSON.stringify(data)
+    }, true);
+}
+
+export function authUpdateJson(endpoint, data) {
+    return authPostJson(endpoint, data, "PUT");
+}
+
+export function authDeleteJson(endpoint) {
+    return authPostJson(endpoint, null, "DELETE");
+}
