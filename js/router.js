@@ -42,6 +42,9 @@ async function handleRoute() {
     const [path, queryString] = hash.slice(1).split('?');
     const params = new URLSearchParams(queryString);
 
+    const route = routes[path] || routes['/'];
+    renderLayout(route.layout);
+
     const anchorId = anchorRoutes[path];
 
     if (anchorId) {
@@ -59,10 +62,6 @@ async function handleRoute() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
     }
-
-    const route = routes[path] || routes['/'];
-
-    renderLayout(route.layout);
 
     await renderPage(path, params);
 }

@@ -24,7 +24,7 @@ async function request(endpoint, options = {}, useAuth = false) {
 
     // Redirect authenticated requests to login when the token is rejected.
     if (!response.ok && response.status === 401 && useAuth) {
-        globalThis.location.hash = "#/login";
+        globalThis.location.hash = "#/admin";
     }
 
     // Convert non-success responses into a readable error message.
@@ -126,5 +126,5 @@ export function authUpdateJson(endpoint, data) {
 }
 
 export function authDeleteJson(endpoint) {
-    return authPostJson(endpoint, null, "DELETE");
+    return request(endpoint, { method: "DELETE" }, true);
 }

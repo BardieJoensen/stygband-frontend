@@ -1,4 +1,4 @@
-import {postJson} from "./api.js";
+import { postJson } from "./api.js";
 
 // Decode a JWT and return its payload as an object.
 // JWTs are in the form "header.payload.signature" where the payload
@@ -45,7 +45,7 @@ function isTokenExpired(token) {
     if (!decoded?.exp) return true;
 
     const now = Math.floor(Date.now() / 1000);
-    return decoded.exp < now;
+    return decoded.exp <= now;
 }
 
 // Perform login: send credentials to the API, store returned token,
@@ -53,6 +53,9 @@ function isTokenExpired(token) {
 export async function login(username, password) {
     const data = await postJson(`/api/auth/login`, { username, password });
     // Expecting an object like { token: '...' } from the server.
+    if (!data?.token || typeof data.token !== "string") {
+        throw new Error("Login response did not include a valid token");
+    }
     localStorage.setItem("token", data.token);
     window.dispatchEvent(new Event('authChanged'));
 }

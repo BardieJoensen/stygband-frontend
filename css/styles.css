@@ -902,6 +902,12 @@ textarea {
     color: var(--color-text-primary);
 }
 
+.admin-back-link:focus-visible {  
+    color: var(--color-text-primary);  
+    outline: 2px solid var(--color-text-secondary);  
+    outline-offset: 2px;  
+}  
+
 .admin-back-icon {
     font-size: 18px;
 }
@@ -950,7 +956,7 @@ textarea {
 .admin-form-group input {
     width: 100%;
     padding: 0.75rem 1rem;
-    background: var(--color-bg-input);
+    background: var(--color-input-bg);
 }
 
 /* Error message */

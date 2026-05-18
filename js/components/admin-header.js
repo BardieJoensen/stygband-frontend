@@ -27,5 +27,15 @@ export function renderAdminHeader() {
     update();
     window.addEventListener('authChanged', update);
 
+    // Remove listener when header is removed from DOM
+    const observer = new MutationObserver(() => {
+        if (!header.isConnected) {
+            window.removeEventListener('authChanged', update);
+            observer.disconnect();
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
     return header;
 }
