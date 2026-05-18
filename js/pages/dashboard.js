@@ -1,6 +1,8 @@
 async function render(container, params) {    
     container.innerHTML = `
-        <h1>DASHBOARD</h1>
+        <div class="admin-dashboard-page">
+            <h1>DASHBOARD UNDER DEVELOPMENT</h1>
+        </div>
     `;
 }
 

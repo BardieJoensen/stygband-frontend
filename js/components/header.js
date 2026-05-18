@@ -38,7 +38,5 @@ export function renderHeader() {
         });
     });
 
-
-
     return header;
 }

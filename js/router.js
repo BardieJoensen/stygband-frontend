@@ -1,17 +1,18 @@
 import { isLoggedIn } from "./auth.js";
 import { renderHeader } from "./components/header.js";
 import { renderFooter } from "./components/footer.js";
+import { renderAdminHeader } from "./components/admin-header.js";
 
 const routes = {
-    '/': { module: './pages/home.js', auth: false },
-    '/photos': { module: './pages/photos.js', auth: false },
-    '/about': { module: './pages/about.js', auth: false },
-    "/admin": { module: "./pages/login.js", auth: false },
-    "/admin/login": { module: "./pages/login.js", auth: false },
-    "/admin/dashboard": { module: "./pages/dashboard.js", auth: true }
+    '/': { module: './pages/home.js', auth: false, layout: 'public' },
+    '/photos': { module: './pages/photos.js', auth: false, layout: 'public' },
+    '/about': { module: './pages/about.js', auth: false, layout: 'public' },
+
+    '/admin': { module: './pages/login.js', auth: false, layout: 'admin' },
+    '/admin/login': { module: './pages/login.js', auth: false, layout: 'admin' },
+    '/admin/dashboard': { module: './pages/dashboard.js', auth: true, layout: 'admin' }
 };
 
-// Paths that live as sections on the home page rather than separate routes.
 const anchorRoutes = {
     '/tour': 'tour',
     '/contact': 'contact',
@@ -59,22 +60,29 @@ async function handleRoute() {
         return;
     }
 
+    const route = routes[path] || routes['/'];
+
+    renderLayout(route.layout);
+
     await renderPage(path, params);
 }
 
-function renderLayout() {
+function renderLayout(layout = 'public') {
     const headerRoot = document.getElementById('header-root');
     const footerRoot = document.getElementById('footer-root');
 
     headerRoot.replaceChildren();
     footerRoot.replaceChildren();
 
-    headerRoot.appendChild(renderHeader());
-    footerRoot.appendChild(renderFooter());
+    if (layout === 'admin') {
+        headerRoot.appendChild(renderAdminHeader());
+    } else {
+        headerRoot.appendChild(renderHeader());
+        footerRoot.appendChild(renderFooter());
+    }
 }
 
 window.addEventListener("hashchange", handleRoute);
-window.addEventListener("load", renderLayout);
 window.addEventListener("load", handleRoute);
 
 export function navigate(path) {
