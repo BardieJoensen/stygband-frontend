@@ -1,5 +1,4 @@
-import { renderUpcomingShows } from './upcoming-shows.js';
-import { renderPastShows } from './past-shows.js';
+import { renderShowRows } from './show-rows.js';
 
 export function renderShowsSection(upcomingShows, pastShows) {
     const section = document.createElement('section');
@@ -7,7 +6,7 @@ export function renderShowsSection(upcomingShows, pastShows) {
     
     const heading = document.createElement('h2');
     heading.className = 'section-heading';
-    heading.textContent = 'Tour Dates';
+    heading.textContent = 'Shows';
     section.appendChild(heading);
 
     const toggleSection = document.createElement('div');
@@ -25,9 +24,9 @@ export function renderShowsSection(upcomingShows, pastShows) {
     btnPast.textContent = 'Past Shows';
     btnPast.setAttribute('aria-pressed', 'false');
 
-    const upcomingSection = renderUpcomingShows(upcomingShows);
+    const upcomingSection = renderShowRows(upcomingShows);
 
-    const pastShowsSection = renderPastShows(pastShows);
+    const pastShowsSection = renderShowRows(pastShows, true);
     pastShowsSection.classList.add('hidden');
 
     // Clicking 'Upcoming' shows upcoming and hides past

@@ -1,20 +1,31 @@
+import { isLoggedIn, logout } from "./auth.js";
 import { renderHeader } from "./components/header.js";
 import { renderFooter } from "./components/footer.js";
+import { renderAdminHeader } from "./components/admin-header.js";
 
 const routes = {
-    '/': { module: './pages/home.js' },
-    '/photos': { module: './pages/photos.js' },
-    '/about': { module: './pages/about.js' },
+    '/': { module: './pages/home.js', auth: false, layout: 'public' },
+    '/photos': { module: './pages/photos.js', auth: false, layout: 'public' },
+    '/about': { module: './pages/about.js', auth: false, layout: 'public' },
+
+    '/admin': { module: './pages/login.js', auth: false, layout: 'admin' },
+    '/admin/login': { module: './pages/login.js', auth: false, layout: 'admin' },
+    '/admin/dashboard': { module: './pages/dashboard.js', auth: true, layout: 'admin' }
 };
 
-// Paths that live as sections on the home page rather than separate routes.
 const anchorRoutes = {
-    '/tour': 'tour',
+    '/shows': 'shows',
     '/contact': 'contact',
 };
 
 async function renderPage(path, params) {
     const route = routes[path] || routes['/'];
+
+    if (route.auth && !isLoggedIn()) {
+        logout();
+        return;
+    }
+
     try {
         const { default: page } = await import(route.module);
         const content = document.getElementById('content');
@@ -31,6 +42,9 @@ async function handleRoute() {
     const [path, queryString] = hash.slice(1).split('?');
     const params = new URLSearchParams(queryString);
 
+    const route = routes[path] || routes['/'];
+    renderLayout(route.layout);
+
     const anchorId = anchorRoutes[path];
 
     if (anchorId) {
@@ -44,7 +58,7 @@ async function handleRoute() {
         return;
     }
 
-    if (path === '/' && document.getElementById('tour')) {
+    if (path === '/' && document.getElementById('shows')) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
     }
@@ -52,19 +66,22 @@ async function handleRoute() {
     await renderPage(path, params);
 }
 
-function renderLayout() {
+function renderLayout(layout = 'public') {
     const headerRoot = document.getElementById('header-root');
     const footerRoot = document.getElementById('footer-root');
 
     headerRoot.replaceChildren();
     footerRoot.replaceChildren();
 
-    headerRoot.appendChild(renderHeader());
-    footerRoot.appendChild(renderFooter());
+    if (layout === 'admin') {
+        headerRoot.appendChild(renderAdminHeader());
+    } else {
+        headerRoot.appendChild(renderHeader());
+        footerRoot.appendChild(renderFooter());
+    }
 }
 
 window.addEventListener("hashchange", handleRoute);
-window.addEventListener("load", renderLayout);
 window.addEventListener("load", handleRoute);
 
 export function navigate(path) {
