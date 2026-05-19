@@ -28,6 +28,6 @@ export async function render(container) {
         container.appendChild(error);
         console.error(err);
     }
-
-export default {render};
 }
+
+export default { render };
