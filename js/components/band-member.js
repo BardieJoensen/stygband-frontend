@@ -21,5 +21,4 @@ export function renderBandMembers(members) {
     });
 
     return section;
-
 }

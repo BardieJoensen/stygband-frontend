@@ -570,6 +570,44 @@ textarea {
 }
 
 /* ---------------------------------------
+    MEMBERS SECTION
+---------------------------------------- */
+
+.band-members {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-lg);
+    padding: 0 var(--space-md);
+    max-width: 80rem;
+    margin: var(--space-lg) auto;
+}
+
+.band-member-card {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+
+    text-align: center;
+    transition: var(--transition-color), border-color 0.2s;
+}
+
+.band-member-name {
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-icon);
+
+}
+
+.band-member-role {
+    color: var(--color-text-secondary);
+    font-family: monospace, monospace;
+    font-size: var(--font-size-nav);
+}
+
+.band-member-card:hover {
+    border-color: var(--color-text-secondary);
+}
+/* ---------------------------------------
     PHOTO GRID
 ---------------------------------------- */
 
