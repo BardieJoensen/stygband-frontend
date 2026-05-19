@@ -35,6 +35,13 @@ export function renderAdminLoginComponent({ onSuccessNavigate }) {
 
                 <form id="loginForm" class="admin-login-form">
                     <div class="admin-form-group">
+                        <label for="username">Username</label>
+                        <input
+                            id="username"
+                            type="text"
+                            placeholder="Enter admin username"
+                            required
+                        />
                         <label for="password">Password</label>
                         <input
                             id="password"
@@ -54,6 +61,7 @@ export function renderAdminLoginComponent({ onSuccessNavigate }) {
     `;
 
     const form = wrapper.querySelector("#loginForm");
+    const usernameInput = wrapper.querySelector("#username");
     const passwordInput = wrapper.querySelector("#password");
     const message = wrapper.querySelector("#message");
 
@@ -61,10 +69,10 @@ export function renderAdminLoginComponent({ onSuccessNavigate }) {
         e.preventDefault();
 
         try {
-            await login("admin", passwordInput.value);
+            await login(usernameInput.value, passwordInput.value);
             onSuccessNavigate();
         } catch (err) {
-            message.textContent = "Incorrect password";
+            message.textContent = "Invalid username or password";
         }
     });
 

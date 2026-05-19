@@ -58,7 +58,7 @@ async function handleRoute() {
         return;
     }
 
-    if (path === '/' && document.getElementById('tour')) {
+    if (path === '/' && document.getElementById('shows')) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
     }
