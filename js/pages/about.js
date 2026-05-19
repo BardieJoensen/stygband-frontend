@@ -1,5 +1,7 @@
 import { getBandBio } from '../services/band-bio-service.js';
 import { renderBandBio } from '../components/band-bio.js';
+import { getBandMembers } from '../services/band-member-service.js';
+import { renderBandMembers } from '../components/band-member.js';
 
 export async function render(container) {
     const heading = document.createElement('h1');
@@ -14,6 +16,16 @@ export async function render(container) {
         const error = document.createElement('p');
         error.className = 'error-text';
         error.textContent = 'Failed to load band bio.';
+        container.appendChild(error);
+        console.error(err);
+    }
+    try {
+        const bandMembers = await getBandMembers();
+        container.appendChild(renderBandMembers(bandMembers));
+    } catch (err) {
+        const error = document.createElement('p');
+        error.className = 'error-text';
+        error.textContent = 'Failed to load band members.';
         container.appendChild(error);
         console.error(err);
     }
