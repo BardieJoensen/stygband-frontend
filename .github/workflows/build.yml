@@ -47,6 +47,9 @@ jobs:
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
+    # Cap the job so a hung SSH/deploy can't block the serialized queue
+    # (health gate is ~150s, so 10 min is comfortably above normal).
+    timeout-minutes: 10
     # Don't let two deploys run at once; queue the next one (EKS-192).
     concurrency:
       group: stugg-deploy
