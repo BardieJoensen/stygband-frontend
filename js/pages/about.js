@@ -18,7 +18,6 @@ export async function render(container) {
         container.appendChild(error);
         console.error(err);
     }
-
     try {
         const bandMember = await getBandMembers();
         container.appendChild(renderBandMembers(bandMember));
@@ -30,5 +29,5 @@ export async function render(container) {
         console.error(err);
     }
 
-    export default {render};
+export default {render};
 }
