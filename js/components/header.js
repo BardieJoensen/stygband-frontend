@@ -9,7 +9,7 @@ export function renderHeader() {
             <a href="#/tour">Tour</a>
             <a href="#/news">News</a>
             <a href="#/photos">Photos</a>
-            <a href="#/shop">Shop</a>
+            <a href="https://stugg.bandcamp.com/" target="_blank">Shop</a>
             <a href="#/about">About</a>
             <a href="#/contact">Contact</a>
         </nav>
