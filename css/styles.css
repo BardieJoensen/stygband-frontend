@@ -10,15 +10,17 @@
 
     --color-text-primary: oklch(0.985 0 0);
     --color-text-secondary: oklch(0.708 0 0);
-    --color-text-muted: oklch(0.55 0 0);
+    --color-text-muted: oklch(61.671% 0.00007 271.152);
 
     --color-accent: oklch(0.985 0 0);
     --color-accent-foreground: oklch(0.205 0 0);
 
-    --color-border: oklch(0.269 0 0);
+    --color-border: oklch(34.07% 0.00004 271.152);
     --color-input-bg: oklch(0.269 0 0);
-    --color-input-border: oklch(0.269 0 0);
+    --color-input-border: oklch(34.07% 0.00004 271.152);
     --color-bg-header: rgba(0, 0, 0, 0.9);
+
+    --color-error: oklch(0.5 0.25 27);
 
     /* Transitions */
     --transition-color: color 0.2s;
@@ -425,7 +427,7 @@ textarea {
     padding: var(--space-md);
     background: var(--color-bg-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    align-items: center;
 }
 
 @media (min-width: 600px) {
@@ -435,14 +437,29 @@ textarea {
     }
 }
 
+.show-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.show-info svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
 .show-date {
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
     font-size: 0.9rem;
 }
 
-.show-city,
-.show-venue {
+.show-city {
     color: var(--color-text-primary);
+}
+
+.show-venue {
+    color: var(--color-text-secondary);
 }
 
 .no-shows {
@@ -864,4 +881,117 @@ textarea {
         display: none;
         /* swipe handles mobile */
     }
+}
+
+
+/* ---------------------------------------
+    ADMIN LOGIN PAGE
+---------------------------------------- */
+
+/* Fullscreen black background */
+.admin-login-page {
+    background: var(--color-bg-page);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
+}
+
+/* Centered container */
+.admin-login-container {
+    max-width: 420px;
+    width: 100%;
+}
+
+/* Back link */
+.admin-back-link {
+    display: inline-flex;
+    gap: var(--space-xs);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-lg);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.admin-back-link:hover {
+    color: var(--color-text-primary);
+}
+
+.admin-back-link:focus-visible {  
+    color: var(--color-text-primary);  
+    outline: 2px solid var(--color-text-secondary);  
+    outline-offset: 2px;  
+}  
+
+.admin-back-icon {
+    font-size: 18px;
+}
+
+/* Header section */
+.admin-login-header {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.admin-lock-icon {
+    font-size: 48px;
+    margin-bottom: var(--space-sm);
+    color: var(--color-text-muted);
+}
+
+.admin-login-header h1 {
+    margin-bottom: var(--space-sm);
+    color: var(--color-text-primary);
+}
+
+.admin-login-header p {
+    color: var(--color-text-muted);
+}
+
+/* Form card */
+.admin-login-form {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    padding: var(--space-lg);
+}
+
+/* Label + input */
+.admin-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.admin-form-group label {
+    display: block;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+    font-size: var(--font-size-base);
+    text-transform: uppercase;
+}
+
+.admin-form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: var(--space-md);
+    background: var(--color-input-bg);
+}
+
+/* Error message */
+.admin-error {
+    color: var(--color-error);
+    font-size: 0.875rem;
+    margin-top: var(--space-sm);
+}
+
+/* Login button */
+.admin-login-button {
+    width: 100%;
+    padding: 0.75rem 1rem;
+}
+
+/* ---------------------------------------
+    ADMIN DASHBOARD PAGE
+---------------------------------------- */
+
+.admin-dashboard-page {
+    padding: var(--space-lg);
 }

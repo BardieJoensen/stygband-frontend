@@ -1,0 +1,10 @@
+:80 {
+	root * /srv
+	encode gzip
+
+	# Lightweight endpoint for container/orchestrator health checks.
+	@health path /healthz
+	respond @health "ok" 200
+
+	file_server
+}
