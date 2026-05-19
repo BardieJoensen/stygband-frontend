@@ -6,8 +6,5 @@
 	@health path /healthz
 	respond @health "ok" 200
 
-	# Hash routing keeps the SPA on "/", but fall back to index.html
-	# so any deep link still resolves.
-	try_files {path} /index.html
 	file_server
 }
