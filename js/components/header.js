@@ -6,10 +6,9 @@ export function renderHeader() {
         <h1 class="logo"><a href="#/"><img src="assets/logo.png" alt="Stügg"></a></h1>
         <nav class="site-nav">
             <a href="#/">Home</a>
-            <a href="#/tour">Tour</a>
-            <a href="#/news">News</a>
+            <a href="#/shows">Shows</a>
             <a href="#/photos">Photos</a>
-            <a href="#/shop">Shop</a>
+            <a href="https://stugg.bandcamp.com/" target="_blank" rel="noopener noreferrer">Shop</a>
             <a href="#/about">About</a>
             <a href="#/contact">Contact</a>
         </nav>
@@ -37,8 +36,6 @@ export function renderHeader() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     });
-
-
 
     return header;
 }
