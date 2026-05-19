@@ -42,3 +42,29 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  # EKS-49 — deploy to the server after the image is published.
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    # Don't let two deploys run at once; queue the next one (EKS-192).
+    concurrency:
+      group: stugg-deploy
+      cancel-in-progress: false
+    steps:
+      - name: Join the tailnet
+        uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+
+      - name: Trigger deploy over SSH
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          # authorized_keys pins this key to command="/opt/stugg/deploy.sh",
+          # so the line below is ignored — the server runs deploy.sh regardless.
+          script: deploy
