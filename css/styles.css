@@ -604,7 +604,6 @@ textarea {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: var(--space-md);
-
     text-align: center;
     transition: var(--transition-color), border-color 0.2s;
 }
@@ -612,12 +611,11 @@ textarea {
 .band-member-name {
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-icon);
-
 }
 
 .band-member-role {
     color: var(--color-text-secondary);
-    font-family: monospace, monospace;
+    font-family: monospace;
     font-size: var(--font-size-nav);
 }
 

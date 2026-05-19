@@ -7,8 +7,8 @@ export function renderBandMembers(members) {
 
     members.forEach(member => {
       const card = document.createElement('div');
-      const name = document.createElement('p');
-      const role = document.createElement('p')
+      const name = document.createElement('h3');
+      const role = document.createElement('p');
       card.className = 'band-member-card';
       name.className = 'band-member-name';
       role.className = 'band-member-role';

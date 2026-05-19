@@ -1,7 +1,8 @@
 import { getBandBio } from '../services/band-bio-service.js';
 import { renderBandBio } from '../components/band-bio.js';
-import { getBandMembers} from '../services/band-member-service.js';
-import {renderBandMembers} from '../components/band-member.js';
+import { getBandMembers } from '../services/band-member-service.js';
+import { renderBandMembers } from '../components/band-member.js';
+
 export async function render(container) {
     const heading = document.createElement('h1');
     heading.className = 'page-title';
@@ -19,8 +20,8 @@ export async function render(container) {
         console.error(err);
     }
     try {
-        const bandMember = await getBandMembers();
-        container.appendChild(renderBandMembers(bandMember));
+        const bandMembers = await getBandMembers();
+        container.appendChild(renderBandMembers(bandMembers));
     } catch (err) {
         const error = document.createElement('p');
         error.className = 'error-text';
