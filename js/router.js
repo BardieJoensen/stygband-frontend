@@ -1,4 +1,4 @@
-import { isLoggedIn } from "./auth.js";
+import { isLoggedIn, logout } from "./auth.js";
 import { renderHeader } from "./components/header.js";
 import { renderFooter } from "./components/footer.js";
 import { renderAdminHeader } from "./components/admin-header.js";
@@ -22,7 +22,7 @@ async function renderPage(path, params) {
     const route = routes[path] || routes['/'];
 
     if (route.auth && !isLoggedIn()) {
-        window.location.hash = "#/admin";
+        logout();
         return;
     }
 

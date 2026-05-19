@@ -1,4 +1,4 @@
-import { CalendarIcon, MapPinIcon} from "./icons.js";
+import { CalendarIcon, MapPinIcon } from "./icons.js";
 
 export function renderShowRows(shows, showPast = false) {
     const safeShows = Array.isArray(shows) ? shows : [];
@@ -9,7 +9,9 @@ export function renderShowRows(shows, showPast = false) {
     if (safeShows.length === 0) {
         const empty = document.createElement('p');
         empty.className = 'no-shows';
-        empty.textContent = 'No upcoming gigs at the moment. Check back soon!';
+        empty.textContent = showPast
+            ? 'No past gigs registered yet.'
+            : 'No upcoming gigs at the moment. Check back soon!';
         list.appendChild(empty);
         return list;
     }
@@ -61,7 +63,7 @@ export function renderShowRows(shows, showPast = false) {
             link.textContent = 'Photos';
             link.className = 'btn';
             row.appendChild(link);
-        } 
+        }
 
         list.appendChild(row);
     });
