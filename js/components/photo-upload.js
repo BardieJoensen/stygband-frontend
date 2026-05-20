@@ -7,7 +7,7 @@ export function renderPhotoUpload(onUploadComplete) {
     container.innerHTML = `
         <h2>Upload Photos</h2>
         <input type="file" id="photoFiles" multiple accept="image/*">
-        <button id="uploadBtn">Upload</button>
+        <button id="uploadBtn" class="btn">Upload</button>
         <div id="uploadMessages"></div>
     `;
 

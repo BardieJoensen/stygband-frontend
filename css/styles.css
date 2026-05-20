@@ -99,8 +99,8 @@ body {
 }
 
 .site-content {
-    padding-top: 5rem;
     /* Account for fixed header */
+    padding-top: 5rem;
 }
 
 /* Headings */
@@ -986,12 +986,4 @@ textarea {
 .admin-login-button {
     width: 100%;
     padding: 0.75rem 1rem;
-}
-
-/* ---------------------------------------
-    ADMIN DASHBOARD PAGE
----------------------------------------- */
-
-.admin-dashboard-page {
-    padding: var(--space-lg);
 }
