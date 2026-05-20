@@ -48,7 +48,11 @@ function buildHeaders(options, useAuth) {
     }
 
     // Default JSON requests to application/json when a body is present.
-    if (options.body && !headers["Content-Type"]) {
+    if (
+        options.body &&
+        !(options.body instanceof FormData) &&
+        !headers["Content-Type"]
+    ) {
         headers["Content-Type"] = "application/json";
     }
 
