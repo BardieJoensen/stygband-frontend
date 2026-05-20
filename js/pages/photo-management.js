@@ -1,18 +1,28 @@
+import { openModal } from "../components/modal.js";
 import { renderPhotoUpload } from "../components/photo-upload.js";
 import { renderPhotoGrid } from "../components/photo-grid.js";
 import { getPhotos } from "../services/photo-service.js";
+import { PlusIcon } from "../components/icons.js"; // ← add this
 
 export async function render(container) {
-    container.innerHTML = `<h1>Photo Management</h1>`;
+    container.innerHTML = `
+        <h1>Photo Management</h1>
+        <div id="uploadBtnContainer"></div>
+        <div id="adminPhotoGrid"></div>
+    `;
 
-    // Upload section
-    const uploadSection = renderPhotoUpload(loadPhotos);
-    container.appendChild(uploadSection);
+    const btn = document.createElement("button");
+    btn.id = "openUploadModal";
+    btn.classList.add("btn");
+    btn.appendChild(PlusIcon());
+    btn.append("Add Photos");
 
-    // Grid section
-    const gridContainer = document.createElement("div");
-    gridContainer.id = "adminPhotoGrid";
-    container.appendChild(gridContainer);
+    document.getElementById("uploadBtnContainer").appendChild(btn);
+
+    btn.onclick = () => {
+        const uploadUI = renderPhotoUpload(loadPhotos);
+        openModal(uploadUI);
+    };
 
     await loadPhotos();
 }

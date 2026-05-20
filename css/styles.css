@@ -168,6 +168,29 @@ textarea {
     justify-self: center;
 }
 
+.btn:disabled,
+.btn[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    border-color: var(--color-border);
+    color: var(--color-text-secondary);
+    background: none;
+}
+
+/* Prevent hover styles when disabled */
+.btn:disabled:hover,
+.btn[disabled]:hover {
+    background: none;
+    color: var(--color-text-secondary);
+}
+
+.btn svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: -2px;
+    margin-right: 0.5rem;
+}
+
 /* ---------------------------------------
     HEADER
 ---------------------------------------- */
@@ -295,6 +318,73 @@ textarea {
     font-size: 0.9rem;
 }
 
+/* ---------------------------------------
+    MODAL (theme-aligned)
+---------------------------------------- */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--color-bg-overlay);
+    /* rgba(0,0,0,0.6) */
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    padding: var(--space-md);
+}
+
+.modal {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    color: var(--color-text-primary);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+    position: relative;
+    animation: modal-fade-in 0.25s ease;
+}
+
+@keyframes modal-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: var(--space-sm);
+    right: var(--space-sm);
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    color: var(--color-text-primary);
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
 
 /* ---------------------------------------
     HERO SECTION
@@ -917,11 +1007,11 @@ textarea {
     color: var(--color-text-primary);
 }
 
-.admin-back-link:focus-visible {  
-    color: var(--color-text-primary);  
-    outline: 2px solid var(--color-text-secondary);  
-    outline-offset: 2px;  
-}  
+.admin-back-link:focus-visible {
+    color: var(--color-text-primary);
+    outline: 2px solid var(--color-text-secondary);
+    outline-offset: 2px;
+}
 
 .admin-back-icon {
     font-size: 18px;
@@ -992,36 +1082,59 @@ textarea {
     PHOTO MANAGEMENT PAGE (admin)
 ---------------------------------------- */
 
+/* ---------------------------------------
+    UPLOAD AREA
+---------------------------------------- */
+.photo-upload {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
 .upload-area {
     display: block;
-    padding: 2rem;
-    border: 2px dashed #ccc;
-    border-radius: 8px;
+    padding: var(--space-lg);
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-surface);
+    color: var(--color-text-secondary);
     text-align: center;
-    font-size: 1.2rem;
-    color: #666;
+    font-size: 1.1rem;
     cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+    user-select: none;
+}
+
+.upload-area:hover {
+    border-color: var(--color-text-primary);
+    color: var(--color-text-primary);
+    background: oklch(0.22 0 0);
+    /* slightly brighter surface */
+}
+
+.upload-area.dragging {
+    border-color: var(--color-accent);
+    background: oklch(0.25 0 0);
+    color: var(--color-accent);
 }
 
 .upload-area input {
     display: none;
 }
 
+/* Preview thumbnails */
 .preview {
     display: flex;
-    gap: 8px;
-    margin-top: 1rem;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
     overflow-x: auto;
+    padding-bottom: var(--space-sm);
 }
 
 .preview-thumb {
     width: 80px;
     height: 80px;
     object-fit: cover;
-    border-radius: 6px;
-}
-
-#uploadMessages p {
-    font-size: 1rem;
-    margin: 0.5rem 0;
+    border-radius: var(--radius-sm);
 }

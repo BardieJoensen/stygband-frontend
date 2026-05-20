@@ -1,6 +1,6 @@
 import { uploadPhotos } from "../services/photo-service.js";
 
-export function renderPhotoUpload(onUploadComplete) {
+export function renderPhotoUpload(onUploadComplete, closeModal) {
     const container = document.createElement("div");
     container.classList.add("photo-upload");
 
@@ -13,25 +13,29 @@ export function renderPhotoUpload(onUploadComplete) {
         </label>
 
         <div id="preview" class="preview"></div>
+
+        <button id="confirmUploadBtn" class="btn" disabled>Upload</button>
         <div id="uploadMessages"></div>
     `;
 
     const fileInput = container.querySelector("#photoFiles");
     const uploadArea = container.querySelector("#uploadArea");
     const preview = container.querySelector("#preview");
+    const confirmBtn = container.querySelector("#confirmUploadBtn");
+
+    let selectedFiles = [];
 
     // -----------------------------
-    // AUTO-UPLOAD WHEN FILES PICKED
+    // FILE SELECTION (tap)
     // -----------------------------
-    fileInput.onchange = async () => {
-        if (fileInput.files.length > 0) {
-            renderPreview(preview, fileInput.files);
-            await handleUpload(fileInput.files, container, onUploadComplete);
-        }
+    fileInput.onchange = () => {
+        selectedFiles = Array.from(fileInput.files);
+        renderPreview(preview, selectedFiles);
+        confirmBtn.disabled = selectedFiles.length === 0;
     };
 
     // -----------------------------
-    // DRAG & DROP SUPPORT (desktop)
+    // DRAG & DROP SUPPORT
     // -----------------------------
     uploadArea.ondragover = (e) => {
         e.preventDefault();
@@ -42,36 +46,49 @@ export function renderPhotoUpload(onUploadComplete) {
         uploadArea.classList.remove("dragging");
     };
 
-    uploadArea.ondrop = async (e) => {
+    uploadArea.ondrop = (e) => {
         e.preventDefault();
         uploadArea.classList.remove("dragging");
 
-        const droppedFiles = e.dataTransfer.files;
-        if (droppedFiles.length > 0) {
-            fileInput.files = droppedFiles;
-            renderPreview(preview, droppedFiles);
-            await handleUpload(droppedFiles, container, onUploadComplete);
+        selectedFiles = Array.from(e.dataTransfer.files);
+        fileInput.files = e.dataTransfer.files;
+
+        renderPreview(preview, selectedFiles);
+        confirmBtn.disabled = selectedFiles.length === 0;
+    };
+
+    // -----------------------------
+    // CONFIRM UPLOAD
+    // -----------------------------
+    confirmBtn.onclick = async () => {
+        if (selectedFiles.length === 0) return;
+
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = "Uploading…";
+
+        const msg = container.querySelector("#uploadMessages");
+        msg.innerHTML = "";
+
+        try {
+            const result = await uploadPhotos(selectedFiles);
+            renderMessages(container, result);
+
+            if (onUploadComplete) onUploadComplete();
+
+            // Close modal after success
+            if (closeModal) {
+                setTimeout(() => closeModal(), 800);
+            }
+
+        } catch (err) {
+            msg.innerHTML = `<p class="error">Upload failed: ${err.message}</p>`;
         }
+
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = "Upload";
     };
 
     return container;
-}
-
-// -----------------------------
-// Upload handler with messages
-// -----------------------------
-async function handleUpload(files, container, onUploadComplete) {
-    const msg = container.querySelector("#uploadMessages");
-    msg.innerHTML = `<p>Uploading…</p>`;
-
-    try {
-        const result = await uploadPhotos(files);
-        renderMessages(container, result);
-
-        if (onUploadComplete) onUploadComplete();
-    } catch (err) {
-        msg.innerHTML = `<p class="error">Upload failed: ${err.message}</p>`;
-    }
 }
 
 // -----------------------------
