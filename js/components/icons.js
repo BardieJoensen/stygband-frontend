@@ -46,9 +46,11 @@ export function PlusIcon() {
     svg.setAttribute('stroke-width', '4');
     svg.setAttribute('stroke-linecap', 'round');
     svg.setAttribute('stroke-linejoin', 'round');
+
     svg.innerHTML = `
         <path d="M5 12h14"></path>
         <path d="M12 5v14"></path>
     `;
+
     return svg;
 }

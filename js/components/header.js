@@ -3,7 +3,7 @@ export function renderHeader() {
     header.className = 'site-header';
     header.innerHTML = `
     <div class="header-container">
-        <h1 class="logo"><a href="#/"><img src="assets/logo.png" alt="Stügg"></a></h1>
+        <h1 class="logo"><a href="#/"><img src="assets/logo_zero_padding.PNG" alt="Stügg"></a></h1>
         <nav class="site-nav">
             <a href="#/">Home</a>
             <a href="#/shows">Shows</a>
