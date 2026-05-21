@@ -216,6 +216,7 @@ textarea {
 .site-nav {
     display: flex;
     gap: var(--space-md);
+    align-items: center;
     margin-left: auto;
 }
 
