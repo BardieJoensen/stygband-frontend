@@ -104,7 +104,11 @@ export function renderPhotoUpload(onUploadComplete) {
             return;
 
         } catch (err) {
-            msg.innerHTML = `<p class="error">Upload failed: ${err.message}</p>`;
+            msg.replaceChildren();
+            const errorP = document.createElement("p");
+            errorP.classList.add("error");
+            errorP.textContent = `Upload failed: ${err.message}`;
+            msg.appendChild(errorP);
             confirmBtn.disabled = false;
             confirmBtn.textContent = "Upload";
         }
@@ -136,16 +140,28 @@ function renderPreview(preview, files) {
 // -------------------------------------------------
 function renderMessages(container, result) {
     const msg = container.querySelector("#uploadMessages");
-    msg.innerHTML = "";
+    msg.replaceChildren();
 
     if (result.uploaded.length > 0) {
-        msg.innerHTML += `<p><strong>Uploaded:</strong> ${result.uploaded.length}</p>`;
+        const uploadedP = document.createElement("p");
+        const uploadedStrong = document.createElement("strong");
+        uploadedStrong.textContent = "Uploaded:";
+        uploadedP.appendChild(uploadedStrong);
+        uploadedP.append(` ${result.uploaded.length}`);
+        msg.appendChild(uploadedP);
     }
 
     if (result.errors.length > 0) {
-        msg.innerHTML += `<p><strong>Errors:</strong></p>`;
+        const errorsHeaderP = document.createElement("p");
+        const errorsStrong = document.createElement("strong");
+        errorsStrong.textContent = "Errors:";
+        errorsHeaderP.appendChild(errorsStrong);
+        msg.appendChild(errorsHeaderP);
+
         result.errors.forEach(err => {
-            msg.innerHTML += `<p>${err.filename}: ${err.reason}</p>`;
+            const errP = document.createElement("p");
+            errP.textContent = `${err.filename}: ${err.reason}`;
+            msg.appendChild(errP);
         });
     }
 }
