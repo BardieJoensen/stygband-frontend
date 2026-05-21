@@ -1,13 +1,13 @@
 import { uploadPhotos } from "../services/photo-service.js";
 
-export function renderPhotoUpload(onUploadComplete, closeModal) {
+export function renderPhotoUpload(onUploadComplete) {
     const container = document.createElement("div");
     container.classList.add("photo-upload");
 
     container.innerHTML = `
         <h2>Upload Photos</h2>
 
-        <label class="upload-area" id="uploadArea">
+        <label class="upload-area" id="uploadArea" tabindex="0">
             <span>Tap or drop photos here</span>
             <input type="file" id="photoFiles" multiple accept="image/*" capture="environment">
         </label>
@@ -22,31 +22,39 @@ export function renderPhotoUpload(onUploadComplete, closeModal) {
     const uploadArea = container.querySelector("#uploadArea");
     const preview = container.querySelector("#preview");
     const confirmBtn = container.querySelector("#confirmUploadBtn");
+    const msg = container.querySelector("#uploadMessages");
 
     let selectedFiles = [];
 
-    // -----------------------------
+    // -------------------------------------------------
+    // GLOBAL DRAG SAFETY (prevents accidental navigation)
+    // -------------------------------------------------
+    const preventDefaults = (e) => e.preventDefault();
+    window.addEventListener("dragover", preventDefaults);
+    window.addEventListener("drop", preventDefaults);
+
+    // -------------------------------------------------
     // FILE SELECTION (tap)
-    // -----------------------------
-    fileInput.onchange = () => {
+    // -------------------------------------------------
+    fileInput.addEventListener("change", () => {
         selectedFiles = Array.from(fileInput.files);
         renderPreview(preview, selectedFiles);
         confirmBtn.disabled = selectedFiles.length === 0;
-    };
+    });
 
-    // -----------------------------
+    // -------------------------------------------------
     // DRAG & DROP SUPPORT
-    // -----------------------------
-    uploadArea.ondragover = (e) => {
+    // -------------------------------------------------
+    uploadArea.addEventListener("dragover", (e) => {
         e.preventDefault();
         uploadArea.classList.add("dragging");
-    };
+    });
 
-    uploadArea.ondragleave = () => {
+    uploadArea.addEventListener("dragleave", () => {
         uploadArea.classList.remove("dragging");
-    };
+    });
 
-    uploadArea.ondrop = (e) => {
+    uploadArea.addEventListener("drop", (e) => {
         e.preventDefault();
         uploadArea.classList.remove("dragging");
 
@@ -55,58 +63,77 @@ export function renderPhotoUpload(onUploadComplete, closeModal) {
 
         renderPreview(preview, selectedFiles);
         confirmBtn.disabled = selectedFiles.length === 0;
-    };
+    });
 
-    // -----------------------------
+    // -------------------------------------------------
+    // KEYBOARD ACCESSIBILITY
+    // -------------------------------------------------
+    uploadArea.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            fileInput.click();
+        }
+    });
+
+    // -------------------------------------------------
     // CONFIRM UPLOAD
-    // -----------------------------
-    confirmBtn.onclick = async () => {
+    // -------------------------------------------------
+    confirmBtn.addEventListener("click", async () => {
         if (selectedFiles.length === 0) return;
 
         confirmBtn.disabled = true;
         confirmBtn.textContent = "Uploading…";
-
-        const msg = container.querySelector("#uploadMessages");
         msg.innerHTML = "";
 
         try {
             const result = await uploadPhotos(selectedFiles);
             renderMessages(container, result);
 
+            // Refresh grid
             if (onUploadComplete) onUploadComplete();
 
-            // Close modal after success
-            if (closeModal) {
-                setTimeout(() => closeModal(), 800);
-            }
+            // Reset state
+            selectedFiles = [];
+            preview.innerHTML = "";
+            fileInput.value = "";
+            confirmBtn.disabled = true;
+            confirmBtn.textContent = "Done!";
+            setTimeout(() => {
+                confirmBtn.textContent = "Upload";
+            }, 1600); // Short delay to show "Done!" state
+
+            return;
 
         } catch (err) {
             msg.innerHTML = `<p class="error">Upload failed: ${err.message}</p>`;
+            confirmBtn.disabled = false;
+            confirmBtn.textContent = "Upload";
         }
-
-        confirmBtn.disabled = false;
-        confirmBtn.textContent = "Upload";
-    };
+    });
 
     return container;
 }
 
-// -----------------------------
-// Preview thumbnails
-// -----------------------------
+// -------------------------------------------------
+// Preview thumbnails (with memory-safe cleanup)
+// -------------------------------------------------
 function renderPreview(preview, files) {
     preview.innerHTML = "";
-    for (const file of files) {
+
+    files.forEach(file => {
+        const url = URL.createObjectURL(file);
         const img = document.createElement("img");
-        img.src = URL.createObjectURL(file);
+        img.src = url;
         img.classList.add("preview-thumb");
+
+        img.onload = () => URL.revokeObjectURL(url);
+
         preview.appendChild(img);
-    }
+    });
 }
 
-// -----------------------------
+// -------------------------------------------------
 // Upload result messages
-// -----------------------------
+// -------------------------------------------------
 function renderMessages(container, result) {
     const msg = container.querySelector("#uploadMessages");
     msg.innerHTML = "";
