@@ -1,6 +1,6 @@
 import { CalendarIcon, MapPinIcon } from "./icons.js";
 
-export function renderShowRows(shows, showPast = false) {
+export function renderShowRows(shows, showPast = false, isAdmin = false, onEdit, onDelete) {
     const safeShows = Array.isArray(shows) ? shows : [];
 
     const list = document.createElement('div');
@@ -47,6 +47,22 @@ export function renderShowRows(shows, showPast = false) {
         row.appendChild(venue);
 
         // BUTTON
+
+
+        if (isAdmin) {
+            const editBtn = document.createElement('button');
+            const deleteBtn = document.createElement('button');
+            editBtn.className = 'btn';
+            editBtn.textContent = 'Edit Show';
+            deleteBtn.className = 'btn';
+            deleteBtn.textContent = 'Delete Show';
+            deleteBtn.addEventListener('click', () => onDelete(show.id));
+            editBtn.addEventListener('click', () => onEdit(show));
+            row.appendChild(deleteBtn);
+            row.appendChild(editBtn);
+        }
+
+
         if (!showPast && show.ticketLink) {
             const btn = document.createElement('a');
             btn.href = show.ticketLink;
@@ -56,6 +72,8 @@ export function renderShowRows(shows, showPast = false) {
             btn.append("Tickets");
             row.appendChild(btn);
         }
+
+
 
         if (showPast && show.hasPhotos) {
             const link = document.createElement('a');

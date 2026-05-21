@@ -1,7 +1,7 @@
 import {authDeleteJson, authPostJson, authUpdateJson,} from "../api.js";
 
-export function createUpcomingShow(showData) {
-  return authPostJson(`/api/admin/shows/`, showData);
+export function createShow(showData) {
+  return authPostJson(`/api/admin/shows`, showData);
 }
 
 export function deleteShowById(showId) {

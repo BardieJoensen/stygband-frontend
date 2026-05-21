@@ -10,7 +10,8 @@ const routes = {
 
     '/admin': { module: './pages/login.js', auth: false, layout: 'admin' },
     '/admin/login': { module: './pages/login.js', auth: false, layout: 'admin' },
-    '/admin/dashboard': { module: './pages/dashboard.js', auth: true, layout: 'admin' }
+    '/admin/dashboard': { module: './pages/dashboard.js', auth: true, layout: 'admin' },
+    '/admin/shows': { module: './pages/show-management.js', auth: true, layout: 'admin' },
 };
 
 const anchorRoutes = {
