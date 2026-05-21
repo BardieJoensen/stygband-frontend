@@ -12,7 +12,6 @@ export function renderAdminHeader() {
                 <button class="hamburger">☰</button>
         </div>
     `;
-
     
     const hamburger = header.querySelector('.hamburger');
     const nav = header.querySelector('.site-nav');
@@ -29,8 +28,11 @@ export function renderAdminHeader() {
     });
     
     function update() {
+        hamburger.classList.add('hidden');
         nav.innerHTML = '';
         if (isLoggedIn()) {
+            hamburger.classList.remove('hidden');
+
             const photosLink = document.createElement('a');
             photosLink.href = "#/admin/photos";
             photosLink.textContent = "Photos";

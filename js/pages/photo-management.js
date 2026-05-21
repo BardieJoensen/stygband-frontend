@@ -6,8 +6,10 @@ import { PlusIcon } from "../components/icons.js"; // ← add this
 
 export async function render(container) {
     container.innerHTML = `
-        <h1>Photo Management</h1>
-        <div id="uploadBtnContainer"></div>
+        <div class="page-header">
+            <h1>Photo Management</h1>
+            <div id="actionContainer"></div>
+        </div>
         <div id="adminPhotoGrid"></div>
     `;
 
@@ -17,7 +19,7 @@ export async function render(container) {
     btn.appendChild(PlusIcon());
     btn.append("Add Photos");
 
-    document.getElementById("uploadBtnContainer").appendChild(btn);
+    document.getElementById("actionContainer").appendChild(btn);
 
     btn.onclick = () => {
         const uploadUI = renderPhotoUpload(loadPhotos);

@@ -225,6 +225,10 @@ textarea {
 }
 
 @media (max-width: 768px) {
+    .header-container {
+        padding: 0 var(--space-lg);
+    }
+
     .site-nav {
         display: none;
         flex-direction: column;
@@ -277,6 +281,7 @@ textarea {
 
 .logo img {
     height: 4.5rem;
+    padding: var(--space-sm);
     filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
 }
 
@@ -974,6 +979,34 @@ textarea {
     }
 }
 
+/* ---------------------------------------
+    ADMIN PANEL LAYOUT
+---------------------------------------- */
+
+.admin-layout {
+    padding: 5rem var(--space-xl) var(--space-lg);
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    padding: 0 var(--space-md);
+}
+
+@media (max-width: 768px) {
+    .admin-layout {
+        padding: 5rem 0 var(--space-lg);
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-md);
+    }
+}
 
 /* ---------------------------------------
     ADMIN LOGIN PAGE

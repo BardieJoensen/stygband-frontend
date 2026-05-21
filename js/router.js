@@ -68,6 +68,7 @@ async function handleRoute() {
 }
 
 function renderLayout(layout = 'public') {
+    const content = document.getElementById('content');
     const headerRoot = document.getElementById('header-root');
     const footerRoot = document.getElementById('footer-root');
 
@@ -75,8 +76,10 @@ function renderLayout(layout = 'public') {
     footerRoot.replaceChildren();
 
     if (layout === 'admin') {
+        content.classList.add('admin-layout');
         headerRoot.appendChild(renderAdminHeader());
     } else {
+        content.classList.remove('admin-layout');
         headerRoot.appendChild(renderHeader());
         footerRoot.appendChild(renderFooter());
     }
