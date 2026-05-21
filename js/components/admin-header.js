@@ -15,16 +15,15 @@ export function renderAdminHeader() {
     
     const hamburger = header.querySelector('.hamburger');
     const nav = header.querySelector('.site-nav');
-    const links = nav.querySelectorAll('a');
     
     hamburger.addEventListener('click', function (){
         nav.classList.toggle('open');
     });
     
-    links.forEach(function (link) {
-        link.addEventListener('click', function (){
+    nav.addEventListener('click', function (event) {
+        if (event.target.closest('a')) {
             nav.classList.remove('open');
-        })
+        }
     });
     
     function update() {
