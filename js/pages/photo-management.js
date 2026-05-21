@@ -2,7 +2,7 @@ import { openModal } from "../components/modal.js";
 import { renderPhotoUpload } from "../components/photo-upload.js";
 import { renderPhotoGrid } from "../components/photo-grid.js";
 import { getPhotos } from "../services/photo-service.js";
-import { PlusIcon } from "../components/icons.js"; // ← add this
+import { PlusIcon } from "../components/icons.js";
 
 export async function render(container) {
     container.innerHTML = `
