@@ -21,11 +21,20 @@ export async function render(container) {
     openModal(renderShowForm(null, loadShows));
   });
 
+  const onDelete = async (showId) => {
+    await deleteShowById(showId);
+    await loadShows();
+  }
+
+  const onEdit = async (showId) => {
+    openModal(renderShowForm(showId, loadShows));
+  }
+
   async function loadShows() {
     const shows = await getUpcomingShows();
     const listContainer = document.getElementById('adminShow');
     listContainer.innerHTML = "";
-    listContainer.appendChild(renderShowRows(shows));
+    listContainer.appendChild(renderShowRows(shows, false, true, onEdit, onDelete));
   }
 
   document.getElementById("actionContainer").appendChild(btn);
