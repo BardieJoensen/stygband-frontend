@@ -9,17 +9,21 @@ export function openModal(content) {
     closeBtn.classList.add("modal-close");
     closeBtn.textContent = "×";
 
-    closeBtn.onclick = () => overlay.remove();
-    overlay.onclick = (e) => {
-        if (e.target === overlay) overlay.remove();
+    const onEsc = (e) => {
+        if (e.key === "Escape") close();
     };
 
-    document.addEventListener("keydown", function esc(e) {
-        if (e.key === "Escape") {
-            overlay.remove();
-            document.removeEventListener("keydown", esc);
-        }
-    });
+    const close = () => {
+        document.removeEventListener("keydown", onEsc);
+        overlay.remove();
+    };
+
+    closeBtn.onclick = close;
+    overlay.onclick = (e) => {
+        if (e.target === overlay) close();
+    };
+
+    document.addEventListener("keydown", onEsc);
 
     modal.appendChild(closeBtn);
     modal.appendChild(content);
