@@ -7,20 +7,42 @@ export function renderAdminHeader() {
     header.innerHTML = `
         <div class="header-container">
             <h1 class="logo">Admin panel</h1>
-            <div class="admin-header__actions"></div>
+                <nav class="site-nav">
+                </nav>
+                <button class="hamburger">☰</button>
         </div>
     `;
-
-    const actions = header.querySelector('.admin-header__actions');
-
+    
+    const hamburger = header.querySelector('.hamburger');
+    const nav = header.querySelector('.site-nav');
+    
+    hamburger.addEventListener('click', function (){
+        nav.classList.toggle('open');
+    });
+    
+    nav.addEventListener('click', function (event) {
+        if (event.target.closest('a')) {
+            nav.classList.remove('open');
+        }
+    });
+    
     function update() {
-        actions.innerHTML = '';
+        hamburger.classList.add('hidden');
+        nav.innerHTML = '';
         if (isLoggedIn()) {
+            hamburger.classList.remove('hidden');
+
+            const photosLink = document.createElement('a');
+            photosLink.href = "#/admin/photos";
+            photosLink.textContent = "Photos";
+            nav.appendChild(photosLink);
+
             const btn = document.createElement('button');
+            btn.type = 'button';
             btn.className = 'btn';
             btn.textContent = "Logout";
-            btn.onclick = logout;
-            actions.appendChild(btn);
+            btn.addEventListener('click', logout);
+            nav.appendChild(btn);
         }
     }
 

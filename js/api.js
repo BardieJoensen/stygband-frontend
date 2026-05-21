@@ -48,7 +48,11 @@ function buildHeaders(options, useAuth) {
     }
 
     // Default JSON requests to application/json when a body is present.
-    if (options.body && !headers["Content-Type"]) {
+    if (
+        options.body &&
+        !(options.body instanceof FormData) &&
+        !headers["Content-Type"]
+    ) {
         headers["Content-Type"] = "application/json";
     }
 
@@ -127,4 +131,11 @@ export function authUpdateJson(endpoint, data) {
 
 export function authDeleteJson(endpoint) {
     return request(endpoint, { method: "DELETE" }, true);
+}
+
+export function authPostFormData(endpoint, formData) {
+    return request(endpoint, {
+        method: "POST",
+        body: formData,
+    }, true);
 }
