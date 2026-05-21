@@ -37,10 +37,11 @@ export function renderAdminHeader() {
             photosLink.textContent = "Photos";
             nav.appendChild(photosLink);
 
-            const btn = document.createElement('a');
+            const btn = document.createElement('button');
+            btn.type = 'button';
             btn.className = 'btn';
             btn.textContent = "Logout";
-            btn.onclick = logout;
+            btn.addEventListener('click', logout);
             nav.appendChild(btn);
         }
     }
