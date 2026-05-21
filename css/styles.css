@@ -22,6 +22,11 @@
 
     --color-error: oklch(0.5 0.25 27);
 
+    /* Shadows */
+    --shadow-modal: 0 0 40px rgba(0, 0, 0, 0.4);
+    --shadow-focus: 0 0 0 4px rgba(0, 0, 0, 0.06), 0 6px 18px rgba(0, 0, 0, 0.12);
+    --shadow-logo: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+
     /* Transitions */
     --transition-color: color 0.2s;
 
@@ -44,6 +49,7 @@
     --space-md: 1rem;
     --space-lg: 2rem;
     --space-xl: 4rem;
+    --space-xxl: 5rem;
 
 }
 
@@ -100,7 +106,7 @@ body {
 
 .site-content {
     /* Account for fixed header */
-    padding-top: 5rem;
+    padding-top: var(--space-xxl);
 }
 
 /* Headings */
@@ -159,7 +165,7 @@ textarea {
 
 .btn:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06), 0 6px 18px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-focus);
 }
 
 .btn.block {
@@ -209,7 +215,7 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 5rem;
+    height: var(--space-xxl);
     padding: 0 var(--space-xl);
 }
 
@@ -282,7 +288,7 @@ textarea {
 .logo img {
     height: 4.5rem;
     padding: var(--space-sm);
-    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+    filter: var(--shadow-logo);
 }
 
 
@@ -351,7 +357,7 @@ textarea {
     max-height: 90vh;
     overflow-y: auto;
     color: var(--color-text-primary);
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-modal);
     position: relative;
     animation: modal-fade-in 0.25s ease;
 }
@@ -388,8 +394,14 @@ textarea {
 }
 
 .modal-close:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--color-text-primary);
     transform: scale(1.1);
+}
+
+.modal-close:focus-visible {
+    outline: 2px solid var(--color-text-secondary);
+    outline-offset: 2px;
+    background: var(--color-text-primary);
 }
 
 /* ---------------------------------------
@@ -1020,7 +1032,7 @@ textarea {
 ---------------------------------------- */
 
 .admin-layout {
-    padding: 5rem var(--space-xl) var(--space-lg);
+    padding: var(--space-xxl) var(--space-xl) var(--space-lg);
 }
 
 .page-header {
@@ -1179,13 +1191,21 @@ textarea {
 .upload-area:hover {
     border-color: var(--color-text-primary);
     color: var(--color-text-primary);
-    background: oklch(0.22 0 0);
+    background: var(--color-bg-page);
     /* slightly brighter surface */
+}
+
+.upload-area:focus-visible {
+    outline: 2px solid var(--color-text-secondary);
+    outline-offset: 3px;
+    border-color: var(--color-text-primary);
+    color: var(--color-text-primary);
+    background: var(--color-bg-page);
 }
 
 .upload-area.dragging {
     border-color: var(--color-accent);
-    background: oklch(0.25 0 0);
+    background: var(--color-bg-surface);
     color: var(--color-accent);
 }
 
