@@ -4,14 +4,9 @@ import { renderPhotoGrid } from "../components/photo-grid.js";
 import { getPhotos } from "../services/photo-service.js";
 import { PlusIcon } from "../components/icons.js";
 
-export async function render(container) {
-    container.innerHTML = `
-        <div class="page-header">
-            <h1>Photo Management</h1>
-            <div id="actionContainer"></div>
-        </div>
-        <div id="adminPhotoGrid"></div>
-    `;
+function createActionContainer(loadPhotos) {
+    const actionContainer = document.createElement("div");
+    actionContainer.id = "actionContainer";
 
     const btn = document.createElement("button");
     btn.id = "openUploadModal";
@@ -19,22 +14,49 @@ export async function render(container) {
     btn.appendChild(PlusIcon());
     btn.append("Add Photos");
 
-    document.getElementById("actionContainer").appendChild(btn);
-
     btn.onclick = () => {
         const uploadUI = renderPhotoUpload(loadPhotos);
         openModal(uploadUI);
     };
 
+    actionContainer.appendChild(btn);
+    return actionContainer;
+}
+
+function createPageHeader(loadPhotos) {
+    const header = document.createElement("div");
+    header.classList.add("page-header");
+    const title = document.createElement("h1");
+    title.textContent = "Photo Management";
+    header.appendChild(title);
+    header.appendChild(createActionContainer(loadPhotos));
+    return header;
+}
+
+export async function render(container) {
+    container.appendChild(createPageHeader(loadPhotos));
+
+    const gridContainer = document.createElement("div");
+    gridContainer.id = "adminPhotoGrid";
+    container.appendChild(gridContainer);
+
     await loadPhotos();
 }
 
 async function loadPhotos() {
-    const photos = await getPhotos();
     const gridContainer = document.getElementById("adminPhotoGrid");
 
-    gridContainer.innerHTML = "";
-    gridContainer.appendChild(renderPhotoGrid(photos));
+    if (!gridContainer) return;
+
+    try {
+        const photos = await getPhotos();
+
+        gridContainer.innerHTML = "";
+        gridContainer.appendChild(renderPhotoGrid(photos));
+    } catch (error) {
+        console.error("Failed to load photos:", error);
+        gridContainer.innerHTML = '<p class="admin-error">Could not load photos right now.</p>';
+    }
 }
 
 export default { render };
