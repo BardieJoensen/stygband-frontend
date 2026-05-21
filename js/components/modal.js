@@ -9,13 +9,14 @@ export function openModal(content) {
     closeBtn.classList.add("modal-close");
     closeBtn.textContent = "×";
 
-    const onEsc = (e) => {
-        if (e.key === "Escape") close();
-    };
-
     const close = () => {
         document.removeEventListener("keydown", onEsc);
         overlay.remove();
+        content.cleanup?.();
+    };
+
+    const onEsc = (e) => {
+        if (e.key === "Escape") close();
     };
 
     closeBtn.onclick = close;

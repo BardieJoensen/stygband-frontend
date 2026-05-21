@@ -32,6 +32,10 @@ export function renderPhotoUpload(onUploadComplete) {
     const preventDefaults = (e) => e.preventDefault();
     window.addEventListener("dragover", preventDefaults);
     window.addEventListener("drop", preventDefaults);
+    container.cleanup = () => {
+        window.removeEventListener("dragover", preventDefaults);
+        window.removeEventListener("drop", preventDefaults);
+    };
 
     // -------------------------------------------------
     // FILE SELECTION (tap)
