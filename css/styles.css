@@ -1160,6 +1160,7 @@ textarea {
 .admin-login-form {
     background: var(--color-bg-surface);
     border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     padding: var(--space-lg);
 }
 
@@ -1212,6 +1213,7 @@ textarea {
 .admin-photo-card {
     background: var(--color-bg-surface);
     border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
 
     display: flex;
     flex-direction: column;

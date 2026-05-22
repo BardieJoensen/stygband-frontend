@@ -15,19 +15,19 @@ export function renderAdminPhotoGrid(photos) {
     const grid = document.createElement('div');
     grid.classList.add('admin-photo-grid');
 
-    safePhotos.forEach((photo, index) => {
-        grid.appendChild(renderAdminPhotoCard(photo, index, safePhotos));
+    safePhotos.forEach((photo) => {
+        grid.appendChild(renderAdminPhotoCard(photo, safePhotos));
     });
 
     return grid;
 }
 
-function renderAdminPhotoCard(photo, index, photos) {
+function renderAdminPhotoCard(photo, photos) {
     const card = document.createElement('div');
     card.classList.add('admin-photo-card');
 
     card.appendChild(renderActions(photo, card, photos));
-    card.appendChild(renderImage(photo, index, photos));
+    card.appendChild(renderImage(photo, photos));
     card.appendChild(renderMetadata(photo));
 
     return card;
@@ -63,7 +63,10 @@ function renderActions(photo, card, photos) {
         try {
             await deletePhoto(photo.id);
             card.remove();
-            photos.splice(photos.indexOf(photo), 1);
+            const photoIndex = photos.indexOf(photo);
+            if (photoIndex !== -1) {
+                photos.splice(photoIndex, 1);
+            }
         } catch (err) {
             deleteBtn.disabled = false;
             alert(`Delete failed: ${err.message}`);
@@ -97,7 +100,7 @@ function renderMetadata(photo) {
     return metadata;
 }
 
-function renderImage(photo, index, photos) {
+function renderImage(photo, photos) {
     const wrapper = document.createElement('button');
     wrapper.type = 'button';
     wrapper.classList.add('photo-grid-item');
@@ -132,8 +135,10 @@ function renderImage(photo, index, photos) {
     wrapper.appendChild(img);
 
     wrapper.addEventListener('click', () => {
+        const currentIndex = photos.indexOf(photo);
+        if (currentIndex === -1) return;
         document.dispatchEvent(new CustomEvent('open-lightbox', {
-            detail: { photos, index }
+            detail: { photos, index: currentIndex }
         }));
     });
 
