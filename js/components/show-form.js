@@ -21,6 +21,7 @@ export function renderShowForm(show = null, onComplete) {
         input.id = inputConfig.id;
         if (inputConfig.placeholder) input.placeholder = inputConfig.placeholder;
         input.value = inputConfig.value ?? "";
+        if (inputConfig.required) input.required = true;
 
         group.append(label, input);
         return group;
@@ -30,6 +31,7 @@ export function renderShowForm(show = null, onComplete) {
         type: "date",
         id: "showDate",
         value: isEdit ? show.date : "",
+        required: true,
     });
 
     const cityField = generateFormField("City", {
@@ -37,6 +39,7 @@ export function renderShowForm(show = null, onComplete) {
         id: "showCity",
         placeholder: "City",
         value: isEdit ? show.city : "",
+        required: true,
     });
 
     const venueField = generateFormField("Venue", {
@@ -44,6 +47,7 @@ export function renderShowForm(show = null, onComplete) {
         id: "showVenue",
         placeholder: "Venue",
         value: isEdit ? show.venue : "",
+        required: true,
     });
 
     const ticketLinkField = generateFormField("Ticket Link (optional)", {
