@@ -1,6 +1,6 @@
 import { openModal} from "../components/modal.js";
 import { renderShowForm } from "../components/show-form.js";
-import {createShow, editShowById, deleteShowById } from "../services/admin-show-service.js";
+import {deleteShowById } from "../services/admin-show-service.js";
 import {getUpcomingShows, getPastShows} from "../services/show-service.js";
 import { PlusIcon } from "../components/icons.js";
 import {renderShowRows} from "../components/show-rows.js";
