@@ -9,9 +9,9 @@ export async function render(container) {
   container.innerHTML = `
           <div class="page-header">
               <h1>Show Management</h1>
-              <div id="actionContainer"></div>
               <div id="toggleContainer" class="toggle-section"></div>
-          </div>
+              <div id="actionContainer"></div>
+0          </div>
           <div id="adminShow"></div>
       `;
 

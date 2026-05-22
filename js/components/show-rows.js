@@ -46,22 +46,9 @@ export function renderShowRows(shows, showPast = false, isAdmin = false, onEdit,
         row.appendChild(cityWrap);
         row.appendChild(venue);
 
-        // BUTTON
-
-
-        if (isAdmin) {
-            const editBtn = document.createElement('button');
-            const deleteBtn = document.createElement('button');
-            editBtn.className = 'btn';
-            editBtn.textContent = 'Edit Show';
-            deleteBtn.className = 'btn';
-            deleteBtn.textContent = 'Delete Show';
-            deleteBtn.addEventListener('click', () => onDelete(show.id));
-            editBtn.addEventListener('click', () => onEdit(show));
-            row.appendChild(deleteBtn);
-            row.appendChild(editBtn);
-        }
-
+        // BUTTONS
+        const actions = document.createElement('div');
+        actions.className = 'show-actions';
 
         if (!showPast && show.ticketLink) {
             const btn = document.createElement('a');
@@ -70,21 +57,32 @@ export function renderShowRows(shows, showPast = false, isAdmin = false, onEdit,
             btn.rel = "noopener noreferrer";
             btn.className = "btn";
             btn.append("Tickets");
-            row.appendChild(btn);
+            actions.appendChild(btn);
         }
-
-
 
         if (showPast && show.hasPhotos) {
             const link = document.createElement('a');
             link.href = `#/photos?showId=${show.id}`;
             link.textContent = 'Photos';
             link.className = 'btn';
-            row.appendChild(link);
+            actions.appendChild(link);
         }
 
+        if (isAdmin) {
+            const editBtn = document.createElement('button');
+            editBtn.className = 'btn';
+            editBtn.textContent = 'Edit Show';
+            editBtn.addEventListener('click', () => onEdit(show));
+            actions.appendChild(editBtn);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn';
+            deleteBtn.textContent = 'Delete Show';
+            deleteBtn.addEventListener('click', () => onDelete(show.id));
+            actions.appendChild(deleteBtn);
+        }
+        row.appendChild(actions);
         list.appendChild(row);
     });
-
     return list;
 }
