@@ -1,11 +1,11 @@
-import { authDeleteJson, authPostJson, authUpdateJson, } from "../api.js";
+import { authDelete, authPostJson, authUpdateJson, } from "../api.js";
 
 export function createShow(showData) {
   return authPostJson(`/api/admin/shows`, showData);
 }
 
 export function deleteShowById(showId) {
-  return authDeleteJson(`/api/admin/shows/${showId}`);
+  return authDelete(`/api/admin/shows/${showId}`);
 }
 
 export function updateShowById(showId, showData) {
