@@ -77,7 +77,7 @@ function renderMetadata(photo) {
     metadata.appendChild(photographer);
 
     const show = document.createElement('p');
-    show.textContent = 'Show: ' + (photo.showName || 'N/A');
+    show.textContent = 'Show: ' + (photo.show ? `${photo.show.date} - ${photo.show.city} @ ${photo.show.venue}` : 'N/A');
     metadata.appendChild(show);
 
     return metadata;
