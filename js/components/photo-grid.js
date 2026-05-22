@@ -31,14 +31,12 @@ export function renderPhotoGrid(photos) {
         img.alt = photo.caption || 'gallery photo';
         img.loading = 'lazy'; // Hint to browser to lazy-load offscreen images
 
-        // When image loads, hide skeleton
-        img.onload = () => {
-            skeleton.style.display = 'none';
-        };
+        // When image loads, remove skeleton
+        img.onload = () => skeleton.remove();
 
         // Handle image load errors gracefully by showing a fallback UI instead of a broken image.
         img.onerror = () => {
-            skeleton.style.display = 'none';
+            skeleton.remove();
             console.error("Image failed to load:", img.src);
 
             const fallback = document.createElement('div');

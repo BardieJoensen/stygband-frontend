@@ -1,4 +1,4 @@
-import { fetchJson, authPostFormData } from "../api.js";
+import { fetchJson, authPostFormData, authDelete } from "../api.js";
 
 export function getPhotos(showId = null) {
     let url = '/api/photos';
@@ -16,11 +16,28 @@ export function getRecentPhotos(limit = 6) {
     return fetchJson(url);
 }
 
-export async function uploadPhotos(files) {
+export async function uploadPhotos(files, meta = {}) {
     const formData = new FormData();
+
+    // Files
     for (const file of files) {
         formData.append("files", file);
     }
 
+    // Optional metadata
+    if (meta.caption) {
+        formData.append("caption", meta.caption);
+    }
+    if (meta.photographer) {
+        formData.append("photographer", meta.photographer);
+    }
+    if (meta.dateTaken) {
+        formData.append("dateTaken", meta.dateTaken); // must be yyyy-mm-dd
+    }
+
     return authPostFormData("/api/admin/photos", formData);
+}
+
+export async function deletePhoto(photoId) {
+    return authDelete(`/api/admin/photos/${encodeURIComponent(photoId)}`);
 }
