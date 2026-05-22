@@ -1227,8 +1227,7 @@ textarea {
     padding: var(--space-sm) var(--space-sm);
 }
 
-.admin-photo-card
-.photo-grid-item {
+.admin-photo-card .photo-grid-item {
     border: none;
 }
 
