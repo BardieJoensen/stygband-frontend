@@ -8,9 +8,9 @@ export function renderShowForm(show = null, onComplete) {
     const title = document.createElement("h2");
     title.textContent = isEdit ? "Edit Show" : "Add Show";
 
-    const createFormGroup = (labelText, inputConfig) => {
+    const generateFormField = (labelText, inputConfig) => {
         const group = document.createElement("div");
-        group.className = "admin-form-group";
+        group.className = "form-field";
 
         const label = document.createElement("label");
         label.textContent = labelText;
@@ -21,32 +21,36 @@ export function renderShowForm(show = null, onComplete) {
         input.id = inputConfig.id;
         if (inputConfig.placeholder) input.placeholder = inputConfig.placeholder;
         input.value = inputConfig.value ?? "";
+        if (inputConfig.required) input.required = true;
 
         group.append(label, input);
         return group;
     };
 
-    const dateGroup = createFormGroup("Date", {
+    const dateField = generateFormField("Date", {
         type: "date",
         id: "showDate",
         value: isEdit ? show.date : "",
+        required: true,
     });
 
-    const cityGroup = createFormGroup("City", {
+    const cityField = generateFormField("City", {
         type: "text",
         id: "showCity",
         placeholder: "City",
         value: isEdit ? show.city : "",
+        required: true,
     });
 
-    const venueGroup = createFormGroup("Venue", {
+    const venueField = generateFormField("Venue", {
         type: "text",
         id: "showVenue",
         placeholder: "Venue",
         value: isEdit ? show.venue : "",
+        required: true,
     });
 
-    const ticketLinkGroup = createFormGroup("Ticket Link", {
+    const ticketLinkField = generateFormField("Ticket Link (optional)", {
         type: "url",
         id: "showTicketLink",
         placeholder: "https://...",
@@ -62,7 +66,7 @@ export function renderShowForm(show = null, onComplete) {
     const msg = document.createElement("div");
     msg.id = "showFormMessages";
 
-    form.append(dateGroup, cityGroup, venueGroup, ticketLinkGroup, submitBtn);
+    form.append(dateField, cityField, venueField, ticketLinkField, submitBtn);
     container.append(title, form, msg);
 
     form.addEventListener("submit", async (e) => {

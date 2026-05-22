@@ -13,13 +13,17 @@ function isNonEmptyString(value) {
     return typeof value === 'string' && value.trim().length > 0;
 }
 
-// Create the lightbox once when the module loads
-createLightbox();
+// Ensure lightbox setup is idempotent across dynamically imported page modules.
+if (!document.querySelector('.lightbox-overlay')) {
+    createLightbox();
+}
 
-// Register once at module scope — not inside render() — to avoid accumulating listeners.
-document.addEventListener('open-lightbox', e => {
-    openLightbox(e.detail.photos, e.detail.index);
-});
+if (!window.__openLightboxListenerRegistered) {
+    document.addEventListener('open-lightbox', e => {
+        openLightbox(e.detail.photos, e.detail.index);
+    });
+    window.__openLightboxListenerRegistered = true;
+}
 
 export async function render(container, params) {
 

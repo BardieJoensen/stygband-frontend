@@ -7,13 +7,17 @@ import { renderPhotoSection } from '../components/photos-section.js';
 import { renderShowsSection } from '../components/shows-section.js';
 import { createLightbox, openLightbox } from '../components/lightbox.js';
 
-// Create the lightbox once when the module loads
-createLightbox();
+// Ensure lightbox setup is idempotent across dynamically imported page modules.
+if (!document.querySelector('.lightbox-overlay')) {
+    createLightbox();
+}
 
-// Register once at module scope — not inside render() — to avoid accumulating listeners.
-document.addEventListener('open-lightbox', e => {
-    openLightbox(e.detail.photos, e.detail.index);
-});
+if (!window.__openLightboxListenerRegistered) {
+    document.addEventListener('open-lightbox', e => {
+        openLightbox(e.detail.photos, e.detail.index);
+    });
+    window.__openLightboxListenerRegistered = true;
+}
 
 export async function render(container, params) {
     container.appendChild(renderHero());
