@@ -3,33 +3,70 @@ import { createShow, editShowById } from "../services/admin-show-service.js";
 export function renderShowForm(show = null, onComplete) {
     const isEdit = show !== null;
     const container = document.createElement("div");
+    const form = document.createElement("form");
 
-    container.innerHTML = `
-        <h2>${isEdit ? "Edit Show" : "Add Show"}</h2>
-        <div class="admin-form-group">
-            <label>Date</label>
-            <input type="date" id="showDate" value="${isEdit ? show.date : ""}">
-        </div>
-        <div class="admin-form-group">
-            <label>City</label>
-            <input type="text" id="showCity" placeholder="City" value="${isEdit ? show.city : ""}">
-        </div>
-        <div class="admin-form-group">
-            <label>Venue</label>
-            <input type="text" id="showVenue" placeholder="Venue" value="${isEdit ? show.venue : ""}">
-        </div>
-        <div class="admin-form-group">
-            <label>Ticket Link</label>
-            <input type="url" id="showTicketLink" placeholder="https://..." value="${isEdit ? (show.ticketLink ?? "") : ""}">
-        </div>
-        <button class="btn" id="showSubmitBtn">${isEdit ? "Save Changes" : "Add Show"}</button>
-        <div id="showFormMessages"></div>
-    `;
+    const title = document.createElement("h2");
+    title.textContent = isEdit ? "Edit Show" : "Add Show";
 
-    const submitBtn = container.querySelector("#showSubmitBtn");
-    const msg = container.querySelector("#showFormMessages");
+    const createFormGroup = (labelText, inputConfig) => {
+        const group = document.createElement("div");
+        group.className = "admin-form-group";
 
-    submitBtn.addEventListener("click", async () => {
+        const label = document.createElement("label");
+        label.textContent = labelText;
+        label.htmlFor = inputConfig.id;
+
+        const input = document.createElement("input");
+        input.type = inputConfig.type;
+        input.id = inputConfig.id;
+        if (inputConfig.placeholder) input.placeholder = inputConfig.placeholder;
+        input.value = inputConfig.value ?? "";
+
+        group.append(label, input);
+        return group;
+    };
+
+    const dateGroup = createFormGroup("Date", {
+        type: "date",
+        id: "showDate",
+        value: isEdit ? show.date : "",
+    });
+
+    const cityGroup = createFormGroup("City", {
+        type: "text",
+        id: "showCity",
+        placeholder: "City",
+        value: isEdit ? show.city : "",
+    });
+
+    const venueGroup = createFormGroup("Venue", {
+        type: "text",
+        id: "showVenue",
+        placeholder: "Venue",
+        value: isEdit ? show.venue : "",
+    });
+
+    const ticketLinkGroup = createFormGroup("Ticket Link", {
+        type: "url",
+        id: "showTicketLink",
+        placeholder: "https://...",
+        value: isEdit ? (show.ticketLink ?? "") : "",
+    });
+
+    const submitBtn = document.createElement("button");
+    submitBtn.className = "btn";
+    submitBtn.id = "showSubmitBtn";
+    submitBtn.type = "submit";
+    submitBtn.textContent = isEdit ? "Save Changes" : "Add Show";
+
+    const msg = document.createElement("div");
+    msg.id = "showFormMessages";
+
+    form.append(dateGroup, cityGroup, venueGroup, ticketLinkGroup, submitBtn);
+    container.append(title, form, msg);
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
         const showData = {
             date:       container.querySelector("#showDate").value,
             city:       container.querySelector("#showCity").value,
