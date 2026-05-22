@@ -210,6 +210,19 @@ textarea {
     height: 100%;
 }
 
+/* forms */
+.form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--space-md);
+}
+
+.form-field label {
+    margin-bottom: var(--space-xs);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
+}
+
 /* ---------------------------------------
     HEADER
 ---------------------------------------- */

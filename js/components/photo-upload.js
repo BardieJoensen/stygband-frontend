@@ -12,7 +12,6 @@ export function renderPhotoUpload(onUploadComplete) {
             <input 
                 type="text" 
                 id="captionInput" 
-                class="text-input" 
                 placeholder="Enter caption"
             >
         </div>
@@ -22,7 +21,6 @@ export function renderPhotoUpload(onUploadComplete) {
             <input 
                 type="text" 
                 id="photographerInput" 
-                class="text-input" 
                 placeholder="Enter photographer"
             >
         </div>
@@ -32,7 +30,6 @@ export function renderPhotoUpload(onUploadComplete) {
             <input 
                 type="date" 
                 id="dateTakenInput" 
-                class="text-input"
             >
         </div>
 
