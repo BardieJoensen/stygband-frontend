@@ -8,6 +8,6 @@ export function deleteShowById(showId) {
   return authDeleteJson(`/api/admin/shows/${showId}`);
 }
 
-export function editShowById(showId, showData) {
+export function updateShowById(showId, showData) {
   return authUpdateJson(`/api/admin/shows/${showId}`, showData);
 }

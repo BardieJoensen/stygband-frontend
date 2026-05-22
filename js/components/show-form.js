@@ -1,4 +1,4 @@
-import { createShow, editShowById } from "../services/admin-show-service.js";
+import { createShow, updateShowById } from "../services/admin-show-service.js";
 
 export function renderShowForm(show = null, onComplete) {
     const isEdit = show !== null;
@@ -80,7 +80,7 @@ export function renderShowForm(show = null, onComplete) {
 
         try {
             if (isEdit) {
-                await editShowById(show.id, showData);
+                await updateShowById(show.id, showData);
             } else {
                 await createShow(showData);
             }
