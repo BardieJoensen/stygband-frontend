@@ -43,7 +43,6 @@ async function handleRoute() {
     const params = new URLSearchParams(window.location.search);
 
     const route = routes[path] || routes['/'];
-    renderLayout(route.layout);
 
     const anchorId = anchorRoutes[path];
 
@@ -52,6 +51,7 @@ async function handleRoute() {
         if (existing) {
             existing.scrollIntoView({ behavior: 'smooth' });
         } else {
+            renderLayout(route.layout);
             await renderPage('/', params);
             document.getElementById(anchorId)?.scrollIntoView({ behavior: 'smooth' });
         }
@@ -62,7 +62,8 @@ async function handleRoute() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
     }
-
+    
+    renderLayout(route.layout);
     await renderPage(path, params);
 }
 
