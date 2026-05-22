@@ -70,12 +70,14 @@ export function renderShowRows(shows, showPast = false, isAdmin = false, onEdit,
 
         if (isAdmin) {
             const editBtn = document.createElement('button');
+            editBtn.type = 'button';
             editBtn.className = 'btn';
             editBtn.textContent = 'Edit Show';
             editBtn.addEventListener('click', () => onEdit(show));
             actions.appendChild(editBtn);
 
             const deleteBtn = document.createElement('button');
+            deleteBtn.type = 'button';
             deleteBtn.className = 'btn';
             deleteBtn.textContent = 'Delete Show';
             deleteBtn.addEventListener('click', () => onDelete(show.id));
