@@ -43,10 +43,10 @@ function renderActions(photo, card, photos) {
     editBtn.classList.add('btn', 'icon-btn');
     editBtn.setAttribute('aria-label', 'Edit photo');
     editBtn.appendChild(SquarePenIcon());
-    actions.appendChild(editBtn);
     editBtn.onclick = () => {
         alert("Edit functionality not implemented yet."); // TODO: Implement edit functionality
     };
+    actions.appendChild(editBtn);
 
     const deleteBtn = document.createElement('button');
     deleteBtn.type = 'button';
@@ -59,7 +59,7 @@ function renderActions(photo, card, photos) {
         }
 
         deleteBtn.disabled = true;
-        
+
         try {
             await deletePhoto(photo.id);
             card.remove();

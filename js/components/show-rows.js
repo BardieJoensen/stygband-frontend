@@ -1,4 +1,4 @@
-import { CalendarIcon, MapPinIcon } from "./icons.js";
+import { CalendarIcon, MapPinIcon, SquarePenIcon, TrashIcon } from "./icons.js";
 
 export function renderShowRows(shows, showPast = false, isAdmin = false, onEdit, onDelete) {
     const safeShows = Array.isArray(shows) ? shows : [];
@@ -71,16 +71,18 @@ export function renderShowRows(shows, showPast = false, isAdmin = false, onEdit,
         if (isAdmin) {
             const editBtn = document.createElement('button');
             editBtn.type = 'button';
-            editBtn.className = 'btn';
-            editBtn.textContent = 'Edit Show';
-            editBtn.addEventListener('click', () => onEdit(show));
+            editBtn.classList.add('btn', 'icon-btn');
+            editBtn.setAttribute('aria-label', 'Edit Show');
+            editBtn.appendChild(SquarePenIcon());
+            editBtn.onclick = () => onEdit(show);
             actions.appendChild(editBtn);
 
             const deleteBtn = document.createElement('button');
             deleteBtn.type = 'button';
-            deleteBtn.className = 'btn';
-            deleteBtn.textContent = 'Delete Show';
-            deleteBtn.addEventListener('click', () => onDelete(show.id));
+            deleteBtn.classList.add('btn', 'icon-btn');
+            deleteBtn.setAttribute('aria-label', 'Delete Show');
+            deleteBtn.appendChild(TrashIcon());
+            deleteBtn.onclick = () => onDelete(show.id);
             actions.appendChild(deleteBtn);
         }
         row.appendChild(actions);
