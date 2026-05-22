@@ -32,6 +32,11 @@ export function renderAdminHeader() {
         if (isLoggedIn()) {
             hamburger.classList.remove('hidden');
 
+            const showsLink = document.createElement('a');
+            showsLink.href = "#/admin/shows";
+            showsLink.textContent = "Shows";
+            nav.appendChild(showsLink);
+
             const photosLink = document.createElement('a');
             photosLink.href = "#/admin/photos";
             photosLink.textContent = "Photos";
