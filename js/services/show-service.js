@@ -11,4 +11,3 @@ export function getPastShows() {
 export function getShowById(showId) {
   return fetchJson(`/api/shows/${showId}`);
 }
-
