@@ -39,6 +39,9 @@ export async function render(container) {
   });
 
   const onDelete = async (showId) => {
+    if (!confirm("Are you sure you want to delete this show? This action cannot be undone.")) {
+      return;
+    }
     await deleteShowById(showId);
     await loadShows();
   }
