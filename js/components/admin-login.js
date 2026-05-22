@@ -7,7 +7,7 @@ export function renderAdminLoginComponent({ onSuccessNavigate }) {
         <div class="admin-login-page">
             <div class="admin-login-container">
 
-                <a href="#/" class="admin-back-link">
+                <a href="/" class="admin-back-link">
                     <span class="admin-back-icon">←</span>
                     Back to Website
                 </a>

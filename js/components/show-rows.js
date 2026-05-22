@@ -59,7 +59,7 @@ export function renderShowRows(shows, showPast = false) {
 
         if (showPast && show.hasPhotos) {
             const link = document.createElement('a');
-            link.href = `#/photos?showId=${show.id}`;
+            link.href = `/photos?showId=${show.id}`;
             link.textContent = 'Photos';
             link.className = 'btn';
             row.appendChild(link);

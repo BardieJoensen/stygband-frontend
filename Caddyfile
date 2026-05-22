@@ -2,9 +2,16 @@
 	root * /srv
 	encode gzip
 
-	# Lightweight endpoint for container/orchestrator health checks.
-	@health path /healthz
-	respond @health "ok" 200
+	# Health check — must be matched before the SPA fallback, otherwise
+	# try_files rewrites /healthz to /index.html first.
+	handle /healthz {
+		respond "ok" 200
+	}
 
-	file_server
+	# Static files, with an index.html fallback so history-mode routes
+	# (/admin, /photos, ...) resolve on direct load and refresh.
+	handle {
+		try_files {path} /index.html
+		file_server
+	}
 }

@@ -33,7 +33,7 @@ export function renderAdminHeader() {
             hamburger.classList.remove('hidden');
 
             const photosLink = document.createElement('a');
-            photosLink.href = "#/admin/photos";
+            photosLink.href = "/admin/photos";
             photosLink.textContent = "Photos";
             nav.appendChild(photosLink);
 

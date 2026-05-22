@@ -64,8 +64,8 @@ export async function login(username, password) {
 export function logout() {
     localStorage.removeItem("token");
     window.dispatchEvent(new Event('authChanged'));
-    // Redirecting to `#/admin` keeps the routing logic in the client.
-    window.location.hash = "#/admin";
+    // Send the user back to the admin login.
+    window.location.href = "/admin";
 }
 
 // Simple boolean helper that indicates whether a valid token exists.

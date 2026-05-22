@@ -3,14 +3,14 @@ export function renderHeader() {
     header.className = 'site-header';
     header.innerHTML = `
     <div class="header-container">
-        <h1 class="logo"><a href="#/"><img src="assets/logo_zero_padding.PNG" alt="Stügg"></a></h1>
+        <h1 class="logo"><a href="/"><img src="/assets/logo_zero_padding.PNG" alt="Stügg"></a></h1>
         <nav class="site-nav">
-            <a href="#/">Home</a>
-            <a href="#/shows">Shows</a>
-            <a href="#/photos">Photos</a>
+            <a href="/">Home</a>
+            <a href="/shows">Shows</a>
+            <a href="/photos">Photos</a>
             <a href="https://stugg.bandcamp.com/" target="_blank" rel="noopener noreferrer">Shop</a>
-            <a href="#/about">About</a>
-            <a href="#/contact">Contact</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
         </nav>
         <button class="hamburger">☰</button>
     </div>
@@ -30,7 +30,7 @@ export function renderHeader() {
         })
     });
 
-    const homeLinks = header.querySelectorAll('a[href="#/"]');
+    const homeLinks = header.querySelectorAll('a[href="/"]');
     homeLinks.forEach(function (link) {
         link.addEventListener('click', function () {
             window.scrollTo({ top: 0, behavior: 'smooth' });

@@ -24,7 +24,7 @@ async function request(endpoint, options = {}, useAuth = false) {
 
     // Redirect authenticated requests to login when the token is rejected.
     if (!response.ok && response.status === 401 && useAuth) {
-        globalThis.location.hash = "#/admin";
+        globalThis.location.href = "/admin";
     }
 
     // Convert non-success responses into a readable error message.

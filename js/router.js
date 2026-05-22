@@ -39,9 +39,8 @@ async function renderPage(path, params) {
 }
 
 async function handleRoute() {
-    const hash = window.location.hash || '#/';
-    const [path, queryString] = hash.slice(1).split('?');
-    const params = new URLSearchParams(queryString);
+    const path = window.location.pathname || '/';
+    const params = new URLSearchParams(window.location.search);
 
     const route = routes[path] || routes['/'];
     renderLayout(route.layout);
@@ -85,9 +84,34 @@ function renderLayout(layout = 'public') {
     }
 }
 
-window.addEventListener("hashchange", handleRoute);
+// Intercept clicks on internal links so navigation stays client-side
+// instead of triggering a full page load.
+function handleLinkClick(event) {
+    if (event.defaultPrevented || event.button !== 0 ||
+        event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+    }
+
+    const link = event.target.closest('a');
+    if (!link) return;
+
+    const href = link.getAttribute('href');
+    // Skip external links, protocol-relative URLs ("//host"), and new-tab links.
+    if (!href || !href.startsWith('/') || href.startsWith('//') || link.target === '_blank') {
+        return;
+    }
+
+    event.preventDefault();
+    navigate(href);
+}
+
+window.addEventListener("popstate", handleRoute);
 window.addEventListener("load", handleRoute);
+document.addEventListener("click", handleLinkClick);
 
 export function navigate(path) {
-    window.location.hash = path;
+    if (path !== window.location.pathname + window.location.search) {
+        window.history.pushState({}, '', path);
+    }
+    handleRoute();
 }

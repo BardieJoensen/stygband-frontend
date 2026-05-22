@@ -5,7 +5,7 @@ export function renderHero() {
     hero.innerHTML = `
         <div class="hero-wrapper">
             <img
-                src="assets/hero-image.jpg"
+                src="/assets/hero-image.jpg"
                 alt="Band photo"
                 class="hero-image"
             />
@@ -14,7 +14,7 @@ export function renderHero() {
 
             <div class="hero-logo-overlay">
                 <img
-                    src="assets/logo.png"
+                    src="/assets/logo.png"
                     alt="Stügg Logo"
                     class="hero-logo"
                 />

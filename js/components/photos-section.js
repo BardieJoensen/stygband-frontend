@@ -19,7 +19,7 @@ export function renderPhotoSection(photos) {
     section.appendChild(renderPhotoGrid(safePhotos));
 
     const viewAll = document.createElement('a');
-    viewAll.href = '#/photos';
+    viewAll.href = '/photos';
     viewAll.className = 'btn block';
     viewAll.textContent = 'View All Photos';
     section.appendChild(viewAll);
