@@ -538,10 +538,20 @@ textarea {
     align-items: center;
 }
 
+.show-actions {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+}
+
 @media (min-width: 600px) {
     .show-row {
-        grid-template-columns: 1fr 1fr 2fr 120px;
+        grid-template-columns: 1fr 1fr 1fr 2fr;
         align-items: center;
+    }
+
+    .show-actions {
+        justify-self: end;
     }
 }
 
