@@ -26,14 +26,14 @@ function renderAdminPhotoCard(photo, index, photos) {
     const card = document.createElement('div');
     card.classList.add('admin-photo-card');
 
-    card.appendChild(renderActions(photo, card));
+    card.appendChild(renderActions(photo, card, photos));
     card.appendChild(renderImage(photo, index, photos));
     card.appendChild(renderMetadata(photo));
 
     return card;
 }
 
-function renderActions(photo, card) {
+function renderActions(photo, card, photos) {
     const actions = document.createElement('div');
     actions.classList.add('admin-photo-actions');
 
@@ -41,19 +41,33 @@ function renderActions(photo, card) {
     const editBtn = document.createElement('button');
     editBtn.type = 'button';
     editBtn.classList.add('btn', 'icon-btn');
+    editBtn.setAttribute('aria-label', 'Edit photo');
     editBtn.appendChild(SquarePenIcon());
     actions.appendChild(editBtn);
+    editBtn.onclick = () => {
+        alert("Edit functionality not implemented yet."); // TODO: Implement edit functionality
+    };
 
     const deleteBtn = document.createElement('button');
     deleteBtn.type = 'button';
     deleteBtn.classList.add('btn', 'icon-btn');
+    deleteBtn.setAttribute('aria-label', 'Delete photo');
     deleteBtn.appendChild(TrashIcon());
     deleteBtn.onclick = async () => {
         if (!confirm("Are you sure you want to delete this photo? This action cannot be undone.")) {
             return;
         }
-        await deletePhoto(photo.id);
-        card.remove();
+
+        deleteBtn.disabled = true;
+        
+        try {
+            await deletePhoto(photo.id);
+            card.remove();
+            photos.splice(photos.indexOf(photo), 1);
+        } catch (err) {
+            deleteBtn.disabled = false;
+            alert(`Delete failed: ${err.message}`);
+        }
     };
     actions.appendChild(deleteBtn);
 
