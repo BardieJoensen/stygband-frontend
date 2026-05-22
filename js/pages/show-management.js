@@ -46,8 +46,8 @@ export async function render(container) {
     await loadShows();
   }
 
-  const onEdit = async (showId) => {
-    openModal(renderShowForm(showId, loadShows));
+  const onEdit = async (show) => {
+    openModal(renderShowForm(show, loadShows));
   }
 
   btnUpcoming.addEventListener("click", () => {
