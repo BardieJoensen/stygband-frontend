@@ -1,6 +1,6 @@
 import { CalendarIcon, MapPinIcon } from "./icons.js";
 
-export function renderShowRows(shows, showPast = false) {
+export function renderShowRows(shows, showPast = false, isAdmin = false, onEdit, onDelete) {
     const safeShows = Array.isArray(shows) ? shows : [];
 
     const list = document.createElement('div');
@@ -46,7 +46,10 @@ export function renderShowRows(shows, showPast = false) {
         row.appendChild(cityWrap);
         row.appendChild(venue);
 
-        // BUTTON
+        // BUTTONS
+        const actions = document.createElement('div');
+        actions.className = 'show-actions';
+
         if (!showPast && show.ticketLink) {
             const btn = document.createElement('a');
             btn.href = show.ticketLink;
@@ -54,7 +57,7 @@ export function renderShowRows(shows, showPast = false) {
             btn.rel = "noopener noreferrer";
             btn.className = "btn";
             btn.append("Tickets");
-            row.appendChild(btn);
+            actions.appendChild(btn);
         }
 
         if (showPast && show.hasPhotos) {
@@ -62,11 +65,26 @@ export function renderShowRows(shows, showPast = false) {
             link.href = `#/photos?showId=${show.id}`;
             link.textContent = 'Photos';
             link.className = 'btn';
-            row.appendChild(link);
+            actions.appendChild(link);
         }
 
+        if (isAdmin) {
+            const editBtn = document.createElement('button');
+            editBtn.type = 'button';
+            editBtn.className = 'btn';
+            editBtn.textContent = 'Edit Show';
+            editBtn.addEventListener('click', () => onEdit(show));
+            actions.appendChild(editBtn);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.type = 'button';
+            deleteBtn.className = 'btn';
+            deleteBtn.textContent = 'Delete Show';
+            deleteBtn.addEventListener('click', () => onDelete(show.id));
+            actions.appendChild(deleteBtn);
+        }
+        row.appendChild(actions);
         list.appendChild(row);
     });
-
     return list;
 }
