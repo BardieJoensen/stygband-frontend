@@ -24,11 +24,13 @@ export async function render(container) {
 
   const btnUpcoming = document.createElement("button");
   btnUpcoming.className = "btn active";
+  btnUpcoming.type = "button";
   btnUpcoming.textContent = "Upcoming";
   btnUpcoming.setAttribute("aria-pressed", "true");
 
   const btnPast = document.createElement("button");
   btnPast.className = "btn";
+  btnPast.type = "button";
   btnPast.textContent = "Past";
   btnPast.setAttribute("aria-pressed", "false");
 
@@ -50,6 +52,8 @@ export async function render(container) {
     loadShows();
     btnUpcoming.classList.add("active");
     btnPast.classList.remove("active");
+    btnUpcoming.setAttribute("aria-pressed", "true");
+    btnPast.setAttribute("aria-pressed", "false");
   })
 
   btnPast.addEventListener("click", () => {
@@ -57,6 +61,8 @@ export async function render(container) {
     loadShows();
     btnPast.classList.add("active");
     btnUpcoming.classList.remove("active");
+    btnPast.setAttribute("aria-pressed", "true");
+    btnUpcoming.setAttribute("aria-pressed", "false");
   })
 
   async function loadShows() {
