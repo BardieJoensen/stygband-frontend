@@ -11,7 +11,7 @@ export async function render(container) {
               <h1>Show Management</h1>
               <div id="toggleContainer" class="toggle-section"></div>
               <div id="actionContainer"></div>
-0          </div>
+          </div>
           <div id="adminShow"></div>
       `;
 
