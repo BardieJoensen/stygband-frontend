@@ -66,10 +66,20 @@ export async function render(container) {
   })
 
   async function loadShows() {
-    const shows = showingPast ? await getPastShows() : await getUpcomingShows();
     const listContainer = document.getElementById('adminShow');
     listContainer.innerHTML = "";
-    listContainer.appendChild(renderShowRows(shows, showingPast, true, onEdit, onDelete));
+
+    try {
+      const shows = showingPast ? await getPastShows() : await getUpcomingShows();
+      listContainer.appendChild(renderShowRows(shows, showingPast, true, onEdit, onDelete));
+    } catch (error) {
+      console.error("Failed to load shows:", error);
+      listContainer.innerHTML = `
+        <div class="error-message" role="alert">
+          Failed to load shows. Please try again.
+        </div>
+      `;
+    }
   }
 
   document.getElementById("toggleContainer").appendChild(btnUpcoming);
