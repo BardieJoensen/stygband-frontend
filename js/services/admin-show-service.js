@@ -1,4 +1,4 @@
-import {authDeleteJson, authPostJson, authUpdateJson,} from "../api.js";
+import { authDeleteJson, authPostJson, authUpdateJson, } from "../api.js";
 
 export function createShow(showData) {
   return authPostJson(`/api/admin/shows`, showData);
