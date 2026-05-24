@@ -3,7 +3,7 @@
 ---------------------------------------- */
 
 :root {
-    /* Colors */
+    /* Colours */
     --color-bg-page: oklch(0.145 0 0);
     --color-bg-surface: oklch(0.20 0 0);
     --color-bg-overlay: rgba(0, 0, 0, 0.6);
