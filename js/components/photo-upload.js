@@ -7,6 +7,32 @@ export function renderPhotoUpload(onUploadComplete) {
     container.innerHTML = `
         <h2>Upload Photos</h2>
 
+        <div class="form-field">
+            <label for="captionInput">Caption (optional)</label>
+            <input 
+                type="text" 
+                id="captionInput" 
+                placeholder="Enter caption"
+            >
+        </div>
+
+        <div class="form-field">
+            <label for="photographerInput">Photographer (optional)</label>
+            <input 
+                type="text" 
+                id="photographerInput" 
+                placeholder="Enter photographer"
+            >
+        </div>
+
+        <div class="form-field">
+            <label for="dateTakenInput">Date Taken (optional)</label>
+            <input 
+                type="date" 
+                id="dateTakenInput" 
+            >
+        </div>
+
         <label class="upload-area" id="uploadArea" tabindex="0">
             <span>Tap or drop photos here</span>
             <input type="file" id="photoFiles" multiple accept="image/*" capture="environment">
@@ -18,6 +44,9 @@ export function renderPhotoUpload(onUploadComplete) {
         <div id="uploadMessages"></div>
     `;
 
+    const captionInput = container.querySelector("#captionInput");
+    const photographerInput = container.querySelector("#photographerInput");
+    const dateTakenInput = container.querySelector("#dateTakenInput");
     const fileInput = container.querySelector("#photoFiles");
     const uploadArea = container.querySelector("#uploadArea");
     const preview = container.querySelector("#preview");
@@ -36,7 +65,7 @@ export function renderPhotoUpload(onUploadComplete) {
         window.removeEventListener("dragover", preventDefaults);
         window.removeEventListener("drop", preventDefaults);
     };
-    
+
     // -------------------------------------------------
     // FILE SELECTION (tap)
     // -------------------------------------------------
@@ -85,28 +114,35 @@ export function renderPhotoUpload(onUploadComplete) {
     confirmBtn.addEventListener("click", async () => {
         if (selectedFiles.length === 0) return;
 
+        const caption = captionInput.value.trim();
+        const photographer = photographerInput.value.trim();
+        const dateTaken = dateTakenInput.value || null;
+
         confirmBtn.disabled = true;
         confirmBtn.textContent = "Uploading…";
         msg.innerHTML = "";
 
         try {
-            const result = await uploadPhotos(selectedFiles);
+            const result = await uploadPhotos(selectedFiles, {
+                caption,
+                photographer,
+                dateTaken
+            });
             renderMessages(container, result);
 
-            // Refresh grid
+            // refresh photo grid after upload completes
             await onUploadComplete?.();
 
-            // Reset state
+            // Reset state after upload
             selectedFiles = [];
             preview.innerHTML = "";
+            captionInput.value = "";
+            photographerInput.value = "";
+            dateTakenInput.value = "";
             fileInput.value = "";
             confirmBtn.disabled = true;
             confirmBtn.textContent = "Done!";
-            setTimeout(() => {
-                confirmBtn.textContent = "Upload";
-            }, 1600); // Short delay to show "Done!" state
-
-            return;
+            setTimeout(() => confirmBtn.textContent = "Upload", 1600);
 
         } catch (err) {
             msg.replaceChildren();

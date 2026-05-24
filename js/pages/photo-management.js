@@ -1,8 +1,21 @@
 import { openModal } from "../components/modal.js";
 import { renderPhotoUpload } from "../components/photo-upload.js";
-import { renderPhotoGrid } from "../components/photo-grid.js";
+import { renderAdminPhotoGrid } from "../components/admin-photo-grid.js";
 import { getPhotos } from "../services/photo-service.js";
 import { PlusIcon } from "../components/icons.js";
+import { createLightbox, openLightbox } from "../components/lightbox.js";
+
+// Ensure lightbox setup is idempotent across dynamically imported page modules.
+if (!document.querySelector('.lightbox-overlay')) {
+    createLightbox();
+}
+
+if (!window.__openLightboxListenerRegistered) {
+    document.addEventListener('open-lightbox', e => {
+        openLightbox(e.detail.photos, e.detail.index);
+    });
+    window.__openLightboxListenerRegistered = true;
+}
 
 function createActionContainer(loadPhotos) {
     const actionContainer = document.createElement("div");
@@ -52,10 +65,14 @@ async function loadPhotos() {
         const photos = await getPhotos();
 
         gridContainer.innerHTML = "";
-        gridContainer.appendChild(renderPhotoGrid(photos));
+        gridContainer.appendChild(renderAdminPhotoGrid(photos));
     } catch (error) {
         console.error("Failed to load photos:", error);
-        gridContainer.innerHTML = '<p class="admin-error">Could not load photos right now.</p>';
+        gridContainer.replaceChildren();
+        const errorEl = document.createElement("p");
+        errorEl.className = "admin-error";
+        errorEl.textContent = "Could not load photos right now.";
+        gridContainer.appendChild(errorEl);
     }
 }
 
