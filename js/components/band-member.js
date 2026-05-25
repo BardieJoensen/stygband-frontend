@@ -1,3 +1,4 @@
+import {navigate} from '../router.js';
 export function renderBandMembers(members) {
 
   const section = document.createElement('section');
@@ -16,9 +17,13 @@ export function renderBandMembers(members) {
       role.textContent = member.role;
       card.appendChild(name);
       card.appendChild(role);
+      card.style.cursor = 'pointer'
+      card.addEventListener('click', () => navigate(`/about?memberId=${member.id}`));
       section.appendChild(card);
 
     });
-
     return section;
 }
+
+
+
