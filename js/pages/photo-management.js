@@ -17,7 +17,7 @@ if (!window.__openLightboxListenerRegistered) {
     window.__openLightboxListenerRegistered = true;
 }
 
-async function createActionContainer(loadPhotos) {
+function createActionContainer(loadPhotos) {
     const actionContainer = document.createElement("div");
     actionContainer.id = "actionContainer";
 
@@ -36,18 +36,18 @@ async function createActionContainer(loadPhotos) {
     return actionContainer;
 }
 
-async function createPageHeader(loadPhotos) {
+function createPageHeader(loadPhotos) {
     const header = document.createElement("div");
     header.classList.add("page-header");
     const title = document.createElement("h1");
     title.textContent = "Photo Management";
     header.appendChild(title);
-    header.appendChild(await createActionContainer(loadPhotos));
+    header.appendChild(createActionContainer(loadPhotos));
     return header;
 }
 
 export async function render(container) {
-    container.appendChild(await createPageHeader(loadPhotos));
+    container.appendChild(createPageHeader(loadPhotos));
 
     const gridContainer = document.createElement("div");
     gridContainer.id = "adminPhotoGrid";
