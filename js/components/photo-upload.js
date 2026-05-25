@@ -54,23 +54,40 @@ export async function renderPhotoUpload(onUploadComplete) {
     `;
 
     const showSelect = container.querySelector("#showSelect");
-    const shows = await getShows();
-    shows.forEach(show => {
-        const option = document.createElement("option");
-        option.value = show.id;
-        option.textContent = `${show.date} - ${show.city} @ ${show.venue}`;
-        showSelect.appendChild(option);
-    });
-    // Auto-fill date when a show is selected
-    showSelect.addEventListener("change", () => {
-        const selectedShow = shows.find(s => s.id === Number(showSelect.value));
-        if (selectedShow) {
-            dateTakenInput.value = selectedShow.date;
-        }
-    });
-
     const dateTakenInput = container.querySelector("#dateTakenInput");
     dateTakenInput.valueAsDate = new Date(); // default to today
+
+    let shows = [];
+    try {
+        const loadedShows = await getShows();
+        if (Array.isArray(loadedShows)) {
+            shows = loadedShows;
+        }
+    } catch (error) {
+        console.error("Failed to load shows for photo upload:", error);
+        showSelect.disabled = true;
+        const showField = showSelect.closest(".form-field");
+        if (showField) {
+            showField.hidden = true;
+        }
+    }
+
+    if (shows.length > 0 && showSelect && dateTakenInput) {
+        shows.forEach(show => {
+            const option = document.createElement("option");
+            option.value = show.id;
+            option.textContent = `${show.date} - ${show.city} @ ${show.venue}`;
+            showSelect.appendChild(option);
+        });
+
+        // Auto-fill date when a show is selected
+        showSelect.addEventListener("change", () => {
+            const selectedShow = shows.find(s => s.id === Number(showSelect.value));
+            if (selectedShow) {
+                dateTakenInput.value = selectedShow.date;
+            }
+        });
+    }
 
     const photographerInput = container.querySelector("#photographerInput");
     const captionInput = container.querySelector("#captionInput");
