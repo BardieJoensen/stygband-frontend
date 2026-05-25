@@ -7,16 +7,23 @@ export async function renderPhotoUpload(onUploadComplete) {
 
     container.innerHTML = `
         <h2>Upload Photos</h2>
-
+        
         <div class="form-field">
-            <label for="captionInput">Caption (optional)</label>
-            <input 
-                type="text" 
-                id="captionInput" 
-                placeholder="Enter caption"
-            >
+            <label for="showSelect">Associated Show (optional)</label>
+            <select id="showSelect">
+                <option value="">-- None --</option>
+            </select>
         </div>
 
+        <div class="form-field">
+            <label for="dateTakenInput">Date Taken</label>
+            <input 
+                type="date" 
+                id="dateTakenInput"
+                required
+            >
+        </div>
+        
         <div class="form-field">
             <label for="photographerInput">Photographer (optional)</label>
             <input 
@@ -27,18 +34,12 @@ export async function renderPhotoUpload(onUploadComplete) {
         </div>
 
         <div class="form-field">
-            <label for="dateTakenInput">Date Taken (optional)</label>
+            <label for="captionInput">Caption (optional)</label>
             <input 
-                type="date" 
-                id="dateTakenInput" 
+                type="text" 
+                id="captionInput" 
+                placeholder="Enter caption"
             >
-        </div>
-
-        <div class="form-field">
-            <label for="showSelect">Associated Show (optional)</label>
-            <select id="showSelect">
-                <option value="">-- None --</option>
-            </select>
         </div>
 
         <label class="upload-area" id="uploadArea" tabindex="0">
@@ -52,9 +53,6 @@ export async function renderPhotoUpload(onUploadComplete) {
         <div id="uploadMessages"></div>
     `;
 
-    const captionInput = container.querySelector("#captionInput");
-    const photographerInput = container.querySelector("#photographerInput");
-    const dateTakenInput = container.querySelector("#dateTakenInput");
     const showSelect = container.querySelector("#showSelect");
     const shows = await getShows();
     shows.forEach(show => {
@@ -63,6 +61,19 @@ export async function renderPhotoUpload(onUploadComplete) {
         option.textContent = `${show.date} - ${show.city} @ ${show.venue}`;
         showSelect.appendChild(option);
     });
+    // Auto-fill date when a show is selected
+    showSelect.addEventListener("change", () => {
+        const selectedShow = shows.find(s => s.id === Number(showSelect.value));
+        if (selectedShow) {
+            dateTakenInput.value = selectedShow.date;
+        }
+    });
+
+    const dateTakenInput = container.querySelector("#dateTakenInput");
+    dateTakenInput.valueAsDate = new Date(); // default to today
+
+    const photographerInput = container.querySelector("#photographerInput");
+    const captionInput = container.querySelector("#captionInput");
 
     const fileInput = container.querySelector("#photoFiles");
     const uploadArea = container.querySelector("#uploadArea");
