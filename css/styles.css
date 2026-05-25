@@ -126,7 +126,8 @@ p {
 
 /* Inputs */
 input,
-textarea {
+textarea,
+select {
     font: inherit;
     color: var(--color-text-primary);
     background: var(--color-input-bg);

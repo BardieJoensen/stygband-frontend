@@ -33,6 +33,13 @@ export function renderPhotoUpload(onUploadComplete) {
             >
         </div>
 
+        <div class="form-field">
+            <label for="showSelect">Associated Show (optional)</label>
+            <select id="showSelect">
+                <option value="">-- None --</option>
+            </select>
+        </div>
+
         <label class="upload-area" id="uploadArea" tabindex="0">
             <span>Tap or drop photos here</span>
             <input type="file" id="photoFiles" multiple accept="image/*" capture="environment">
@@ -47,6 +54,7 @@ export function renderPhotoUpload(onUploadComplete) {
     const captionInput = container.querySelector("#captionInput");
     const photographerInput = container.querySelector("#photographerInput");
     const dateTakenInput = container.querySelector("#dateTakenInput");
+    const showSelect = container.querySelector("#showSelect");
     const fileInput = container.querySelector("#photoFiles");
     const uploadArea = container.querySelector("#uploadArea");
     const preview = container.querySelector("#preview");
@@ -117,6 +125,7 @@ export function renderPhotoUpload(onUploadComplete) {
         const caption = captionInput.value.trim();
         const photographer = photographerInput.value.trim();
         const dateTaken = dateTakenInput.value || null;
+        const showId = showSelect.value || null;
 
         confirmBtn.disabled = true;
         confirmBtn.textContent = "Uploading…";
@@ -126,7 +135,8 @@ export function renderPhotoUpload(onUploadComplete) {
             const result = await uploadPhotos(selectedFiles, {
                 caption,
                 photographer,
-                dateTaken
+                dateTaken,
+                showId
             });
             renderMessages(container, result);
 
@@ -139,6 +149,7 @@ export function renderPhotoUpload(onUploadComplete) {
             captionInput.value = "";
             photographerInput.value = "";
             dateTakenInput.value = "";
+            showSelect.value = "";
             fileInput.value = "";
             confirmBtn.disabled = true;
             confirmBtn.textContent = "Done!";
