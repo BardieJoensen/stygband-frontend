@@ -1,6 +1,7 @@
 import { uploadPhotos } from "../services/photo-service.js";
+import { getShows } from "../services/show-service.js";
 
-export function renderPhotoUpload(onUploadComplete) {
+export async function renderPhotoUpload(onUploadComplete) {
     const container = document.createElement("div");
     container.classList.add("photo-upload");
 
@@ -55,6 +56,14 @@ export function renderPhotoUpload(onUploadComplete) {
     const photographerInput = container.querySelector("#photographerInput");
     const dateTakenInput = container.querySelector("#dateTakenInput");
     const showSelect = container.querySelector("#showSelect");
+    const shows = await getShows();
+    shows.forEach(show => {
+        const option = document.createElement("option");
+        option.value = show.id;
+        option.textContent = `${show.date} - ${show.city} @ ${show.venue}`;
+        showSelect.appendChild(option);
+    });
+
     const fileInput = container.querySelector("#photoFiles");
     const uploadArea = container.querySelector("#uploadArea");
     const preview = container.querySelector("#preview");

@@ -17,7 +17,7 @@ if (!window.__openLightboxListenerRegistered) {
     window.__openLightboxListenerRegistered = true;
 }
 
-function createActionContainer(loadPhotos) {
+async function createActionContainer(loadPhotos) {
     const actionContainer = document.createElement("div");
     actionContainer.id = "actionContainer";
 
@@ -27,8 +27,8 @@ function createActionContainer(loadPhotos) {
     btn.appendChild(PlusIcon());
     btn.append("Add Photos");
 
-    btn.onclick = () => {
-        const uploadUI = renderPhotoUpload(loadPhotos);
+    btn.onclick = async () => {
+        const uploadUI = await renderPhotoUpload(loadPhotos);
         openModal(uploadUI);
     };
 
@@ -36,18 +36,18 @@ function createActionContainer(loadPhotos) {
     return actionContainer;
 }
 
-function createPageHeader(loadPhotos) {
+async function createPageHeader(loadPhotos) {
     const header = document.createElement("div");
     header.classList.add("page-header");
     const title = document.createElement("h1");
     title.textContent = "Photo Management";
     header.appendChild(title);
-    header.appendChild(createActionContainer(loadPhotos));
+    header.appendChild(await createActionContainer(loadPhotos));
     return header;
 }
 
 export async function render(container) {
-    container.appendChild(createPageHeader(loadPhotos));
+    container.appendChild(await createPageHeader(loadPhotos));
 
     const gridContainer = document.createElement("div");
     gridContainer.id = "adminPhotoGrid";
