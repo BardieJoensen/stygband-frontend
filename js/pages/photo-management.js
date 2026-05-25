@@ -28,8 +28,13 @@ function createActionContainer(loadPhotos) {
     btn.append("Add Photos");
 
     btn.onclick = async () => {
-        const uploadUI = await renderPhotoUpload(loadPhotos);
-        openModal(uploadUI);
+        try {
+            const uploadUI = await renderPhotoUpload(loadPhotos);
+            openModal(uploadUI);
+        } catch (err) {
+            console.error("Failed to initialize upload form:", err);
+            alert("Could not open upload form. Please try again.");
+        }
     };
 
     actionContainer.appendChild(btn);
