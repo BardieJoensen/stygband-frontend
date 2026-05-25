@@ -42,6 +42,11 @@ export function renderAdminHeader() {
             photosLink.textContent = "Photos";
             nav.appendChild(photosLink);
 
+            const contactLink = document.createElement('a');
+            contactLink.href = "#/admin/contact";
+            contactLink.textContent = "Contact";
+            nav.appendChild(contactLink);
+
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'btn';
