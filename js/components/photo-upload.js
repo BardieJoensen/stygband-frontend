@@ -185,7 +185,7 @@ export async function renderPhotoUpload(onUploadComplete) {
             preview.innerHTML = "";
             captionInput.value = "";
             photographerInput.value = "";
-            dateTakenInput.value = "";
+            dateTakenInput.valueAsDate = new Date();
             showSelect.value = "";
             fileInput.value = "";
             confirmBtn.disabled = true;
