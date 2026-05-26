@@ -1089,6 +1089,10 @@ select:focus-visible {
     padding: 0 0;
 }
 
+.page-header>* {
+    margin: 0;
+}
+
 @media (max-width: 768px) {
     .admin-layout {
         padding: 5rem 0 var(--space-lg);
