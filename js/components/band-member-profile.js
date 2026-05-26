@@ -6,10 +6,10 @@ export function renderMemberProfile(member) {
   section.className = 'member-profile';
 
   const back = document.createElement('button');
+  back.type = 'button';
   back.className = 'back-btn';
   back.textContent = '← Back';
   back.addEventListener('click', () => navigate('/about'));
-  section.appendChild(back);
 
   if (member.photoUrl) {
     const img = document.createElement('img');
