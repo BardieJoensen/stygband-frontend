@@ -37,6 +37,9 @@
     --font-weight-normal: 400;
     --font-weight-medium: 500;
     --letter-spacing-wide: 0.05em;
+    --letter-spacing-btn: 0.12em;
+    --font-size-sm: 0.85rem;
+    --line-height-body: 1.8;
 
     /* Radius */
     --radius-sm: 4px;
@@ -157,8 +160,8 @@ select:focus-visible {
     gap: 0.5rem;
     text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-size: 0.85rem;
+    letter-spacing: var(--letter-spacing-btn);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     transition: background-color 0.2s, color 0.2s;
 }
@@ -730,7 +733,7 @@ select:focus-visible {
 
 .band-bio p {
     color: var(--color-text-secondary);
-    line-height: 1.8;
+    line-height: var(--line-height-body);
     margin-bottom: var(--space-md);
 }
 
@@ -818,10 +821,10 @@ select:focus-visible {
     align-items: center;
     gap: var(--space-xs);
     color: var(--color-text-muted);
-    font-size: 0.85rem;
+    font-size: var(--font-size-sm);
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    transition: color 0.2s;
+    letter-spacing: var(--letter-spacing-btn);
+    transition: var(--transition-color);
 }
 
 .back-btn:hover {
@@ -859,7 +862,7 @@ select:focus-visible {
 .member-profile-role {
     grid-area: role;
     font-family: monospace;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     text-transform: uppercase;
     letter-spacing: 0.15em;
     color: var(--color-text-secondary);
@@ -871,8 +874,8 @@ select:focus-visible {
 .member-profile-bio {
     grid-area: bio;
     color: var(--color-text-secondary);
-    line-height: 1.9;
-    font-size: 1.05rem;
+    line-height: var(--line-height-body);
+    font-size: var(--font-size-base);
     margin: 0;
 }
 
