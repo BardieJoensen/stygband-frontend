@@ -1,6 +1,7 @@
 import { BASE_URL } from "../api.js";
 import { TrashIcon, SquarePenIcon } from "./icons.js";
 import { deletePhoto } from "../services/photo-service.js";
+import { openModal } from "./modal.js";
 
 export function renderAdminPhotoGrid(photos) {
     const safePhotos = Array.isArray(photos) ? photos : [];
@@ -43,9 +44,18 @@ function renderActions(photo, card, photos) {
     editBtn.classList.add('btn', 'icon-btn');
     editBtn.setAttribute('aria-label', 'Edit photo');
     editBtn.appendChild(SquarePenIcon());
-    editBtn.onclick = () => {
-        alert("Edit functionality not implemented yet."); // TODO: Implement edit functionality
+    editBtn.onclick = async () => {
+        try {
+            const editUI = document.createElement('p');
+            editUI.textContent = 'Edit photo form would be displayed here.';
+            openModal(editUI);
+        } catch (err) {
+            console.error("Failed to initialize edit form:", err);
+            alert("Could not open edit form. Please try again.");
+        }
     };
+
+
     actions.appendChild(editBtn);
 
     const deleteBtn = document.createElement('button');
