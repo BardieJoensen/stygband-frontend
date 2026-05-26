@@ -6,53 +6,56 @@ export async function renderPhotoUpload(onUploadComplete) {
     container.classList.add("photo-upload");
 
     container.innerHTML = `
-        <h2>Upload Photos</h2>
-        
-        <div class="form-field">
-            <label for="showSelect">Associated Show (optional)</label>
-            <select id="showSelect">
-                <option value="">-- None --</option>
-            </select>
-        </div>
+        <form id="photoUploadForm">
+            <h2>Upload Photos</h2>
 
-        <div class="form-field">
-            <label for="dateTakenInput">Date Taken</label>
-            <input 
-                type="date" 
-                id="dateTakenInput"
-                required
-            >
-        </div>
-        
-        <div class="form-field">
-            <label for="photographerInput">Photographer (optional)</label>
-            <input 
-                type="text" 
-                id="photographerInput" 
-                placeholder="Enter photographer"
-            >
-        </div>
+            <div class="form-field">
+                <label for="showSelect">Associated Show (optional)</label>
+                <select id="showSelect">
+                    <option value="">-- None --</option>
+                </select>
+            </div>
 
-        <div class="form-field">
-            <label for="captionInput">Caption (optional)</label>
-            <input 
-                type="text" 
-                id="captionInput" 
-                placeholder="Enter caption"
-            >
-        </div>
+            <div class="form-field">
+                <label for="dateTakenInput">Date Taken</label>
+                <input 
+                    type="date" 
+                    id="dateTakenInput"
+                    required
+                >
+            </div>
 
-        <label class="upload-area" id="uploadArea" tabindex="0">
-            <span>Tap or drop photos here</span>
-            <input type="file" id="photoFiles" multiple accept="image/*" capture="environment">
-        </label>
+            <div class="form-field">
+                <label for="photographerInput">Photographer (optional)</label>
+                <input 
+                    type="text" 
+                    id="photographerInput" 
+                    placeholder="Enter photographer"
+                >
+            </div>
 
-        <div id="preview" class="preview"></div>
+            <div class="form-field">
+                <label for="captionInput">Caption (optional)</label>
+                <input 
+                    type="text" 
+                    id="captionInput" 
+                    placeholder="Enter caption"
+                >
+            </div>
 
-        <button id="confirmUploadBtn" class="btn" disabled>Upload</button>
-        <div id="uploadMessages"></div>
+            <label class="upload-area" id="uploadArea" tabindex="0">
+                <span>Tap or drop photos here</span>
+                <input type="file" id="photoFiles" multiple accept="image/*" capture="environment">
+            </label>
+
+            <div id="preview" class="preview"></div>
+
+            <button id="confirmUploadBtn" class="btn" type="submit" disabled>Upload</button>
+            <div id="uploadMessages"></div>
+        </form>
     `;
 
+    const form = container.querySelector("#photoUploadForm");
     const showSelect = container.querySelector("#showSelect");
     const dateTakenInput = container.querySelector("#dateTakenInput");
     dateTakenInput.valueAsDate = new Date(); // default to today
@@ -158,7 +161,9 @@ export async function renderPhotoUpload(onUploadComplete) {
     // -------------------------------------------------
     // CONFIRM UPLOAD
     // -------------------------------------------------
-    confirmBtn.addEventListener("click", async () => {
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
         if (selectedFiles.length === 0) return;
 
         const caption = captionInput.value.trim();
