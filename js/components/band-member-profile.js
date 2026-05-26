@@ -1,4 +1,5 @@
 import { navigate } from '../router.js';
+import {BASE_URL} from "../api.js";
 
 export function renderMemberProfile(member) {
   const section = document.createElement('section');
@@ -12,7 +13,7 @@ export function renderMemberProfile(member) {
 
   if (member.photoUrl) {
     const img = document.createElement('img');
-    img.src = member.photoUrl;
+    img.src = `${BASE_URL}${member.photoUrl}`
     img.alt = member.name;
     img.className = 'member-profile-photo';
     section.appendChild(img);
