@@ -85,7 +85,7 @@ export async function renderPhotoUpload(onUploadComplete) {
 
         // Auto-fill date when a show is selected
         showSelect.addEventListener("change", () => {
-            const selectedShow = shows.find(s => s.id === Number(showSelect.value));
+            const selectedShow = shows.find(s => String(s.id) === showSelect.value);
             if (selectedShow) {
                 dateTakenInput.value = selectedShow.date;
             } else {
