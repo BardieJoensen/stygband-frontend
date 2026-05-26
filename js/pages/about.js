@@ -1,7 +1,7 @@
 import { getBandBio } from '../services/band-bio-service.js';
 import { renderBandBio } from '../components/band-bio.js';
 import {getBandMemberById, getBandMembers} from '../services/band-member-service.js';
-import { renderBandMembers } from '../components/band-member.js';
+import { renderBandMembers } from '../components/band-members.js';
 import { renderMemberProfile } from '../components/band-member-profile.js';
 
 export async function render(container, params) {

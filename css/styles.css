@@ -750,6 +750,8 @@ textarea {
     padding: var(--space-md);
     text-align: center;
     transition: var(--transition-color), border-color 0.2s;
+    cursor: pointer;
+
 }
 
 .band-member-name {
@@ -765,7 +767,79 @@ textarea {
 
 .band-member-card:hover {
     border-color: var(--color-text-secondary);
+    transform: translateY(-3px);
 }
+
+/* ---------------------------------------
+     MEMBER PROFILE
+ ---------------------------------------- */
+
+.member-profile {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-md) var(--space-xxl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.back-btn {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    transition: color 0.2s;
+}
+
+.back-btn:hover {
+    color: var(--color-text-primary);
+}
+
+.member-profile-photo {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid var(--color-border);
+}
+
+.member-profile-name {
+    font-size: 3rem;
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    margin: 0;
+}
+
+@media (min-width: 768px) {
+    .member-profile-name {
+        font-size: 4rem;
+    }
+}
+
+.member-profile-role {
+    font-family: monospace;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+    margin: 0;
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.member-profile-bio {
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin: 0;
+}
+
 /* ---------------------------------------
     PHOTO GRID
 ---------------------------------------- */
