@@ -168,7 +168,7 @@ export async function renderPhotoUpload(onUploadComplete) {
 
         const caption = captionInput.value.trim();
         const photographer = photographerInput.value.trim();
-        const dateTaken = dateTakenInput.value || null;
+        const dateTaken = dateTakenInput.value;
         const showId = showSelect.value || null;
 
         confirmBtn.disabled = true;
