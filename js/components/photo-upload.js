@@ -85,6 +85,8 @@ export async function renderPhotoUpload(onUploadComplete) {
             const selectedShow = shows.find(s => s.id === Number(showSelect.value));
             if (selectedShow) {
                 dateTakenInput.value = selectedShow.date;
+            } else {
+                dateTakenInput.valueAsDate = new Date();
             }
         });
     }
