@@ -34,6 +34,9 @@ export async function uploadPhotos(files, meta = {}) {
     if (meta.dateTaken) {
         formData.append("dateTaken", meta.dateTaken); // must be yyyy-mm-dd
     }
+    if (meta.showId != null && meta.showId !== "") {
+        formData.append("showId", meta.showId);
+    }
 
     return authPostFormData("/api/admin/photos", formData);
 }
