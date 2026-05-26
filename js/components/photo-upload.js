@@ -1,52 +1,102 @@
 import { uploadPhotos } from "../services/photo-service.js";
+import { getShows } from "../services/show-service.js";
 
-export function renderPhotoUpload(onUploadComplete) {
+export async function renderPhotoUpload(onUploadComplete) {
     const container = document.createElement("div");
     container.classList.add("photo-upload");
 
     container.innerHTML = `
-        <h2>Upload Photos</h2>
+        <form id="photoUploadForm">
+            <h2>Upload Photos</h2>
 
-        <div class="form-field">
-            <label for="captionInput">Caption (optional)</label>
-            <input 
-                type="text" 
-                id="captionInput" 
-                placeholder="Enter caption"
-            >
-        </div>
+            <div class="form-field">
+                <label for="showSelect">Associated Show (optional)</label>
+                <select id="showSelect">
+                    <option value="">-- None --</option>
+                </select>
+            </div>
 
-        <div class="form-field">
-            <label for="photographerInput">Photographer (optional)</label>
-            <input 
-                type="text" 
-                id="photographerInput" 
-                placeholder="Enter photographer"
-            >
-        </div>
+            <div class="form-field">
+                <label for="dateTakenInput">Date Taken</label>
+                <input 
+                    type="date" 
+                    id="dateTakenInput"
+                    required
+                >
+            </div>
 
-        <div class="form-field">
-            <label for="dateTakenInput">Date Taken (optional)</label>
-            <input 
-                type="date" 
-                id="dateTakenInput" 
-            >
-        </div>
+            <div class="form-field">
+                <label for="photographerInput">Photographer (optional)</label>
+                <input 
+                    type="text" 
+                    id="photographerInput" 
+                    placeholder="Enter photographer"
+                >
+            </div>
 
-        <label class="upload-area" id="uploadArea" tabindex="0">
-            <span>Tap or drop photos here</span>
-            <input type="file" id="photoFiles" multiple accept="image/*" capture="environment">
-        </label>
+            <div class="form-field">
+                <label for="captionInput">Caption (optional)</label>
+                <input 
+                    type="text" 
+                    id="captionInput" 
+                    placeholder="Enter caption"
+                >
+            </div>
 
-        <div id="preview" class="preview"></div>
+            <label class="upload-area" id="uploadArea" tabindex="0">
+                <span>Tap or drop photos here</span>
+                <input type="file" id="photoFiles" multiple accept="image/*" capture="environment">
+            </label>
 
-        <button id="confirmUploadBtn" class="btn" disabled>Upload</button>
-        <div id="uploadMessages"></div>
+            <div id="preview" class="preview"></div>
+
+            <button id="confirmUploadBtn" class="btn" type="submit" disabled>Upload</button>
+            <div id="uploadMessages"></div>
+        </form>
     `;
 
-    const captionInput = container.querySelector("#captionInput");
-    const photographerInput = container.querySelector("#photographerInput");
+    const form = container.querySelector("#photoUploadForm");
+    const showSelect = container.querySelector("#showSelect");
     const dateTakenInput = container.querySelector("#dateTakenInput");
+    dateTakenInput.valueAsDate = new Date(); // default to today
+
+    let shows = [];
+    try {
+        const loadedShows = await getShows();
+        if (Array.isArray(loadedShows)) {
+            shows = loadedShows;
+        }
+    } catch (error) {
+        console.error("Failed to load shows for photo upload:", error);
+        showSelect.disabled = true;
+        const showField = showSelect.closest(".form-field");
+        if (showField) {
+            showField.hidden = true;
+        }
+    }
+
+    if (shows.length > 0 && showSelect && dateTakenInput) {
+        shows.forEach(show => {
+            const option = document.createElement("option");
+            option.value = show.id;
+            option.textContent = `${show.date} - ${show.city} @ ${show.venue}`;
+            showSelect.appendChild(option);
+        });
+
+        // Auto-fill date when a show is selected
+        showSelect.addEventListener("change", () => {
+            const selectedShow = shows.find(s => String(s.id) === showSelect.value);
+            if (selectedShow) {
+                dateTakenInput.value = selectedShow.date;
+            } else {
+                dateTakenInput.valueAsDate = new Date();
+            }
+        });
+    }
+
+    const photographerInput = container.querySelector("#photographerInput");
+    const captionInput = container.querySelector("#captionInput");
+
     const fileInput = container.querySelector("#photoFiles");
     const uploadArea = container.querySelector("#uploadArea");
     const preview = container.querySelector("#preview");
@@ -111,12 +161,15 @@ export function renderPhotoUpload(onUploadComplete) {
     // -------------------------------------------------
     // CONFIRM UPLOAD
     // -------------------------------------------------
-    confirmBtn.addEventListener("click", async () => {
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
         if (selectedFiles.length === 0) return;
 
         const caption = captionInput.value.trim();
         const photographer = photographerInput.value.trim();
-        const dateTaken = dateTakenInput.value || null;
+        const dateTaken = dateTakenInput.value;
+        const showId = showSelect.value || null;
 
         confirmBtn.disabled = true;
         confirmBtn.textContent = "Uploading…";
@@ -126,7 +179,8 @@ export function renderPhotoUpload(onUploadComplete) {
             const result = await uploadPhotos(selectedFiles, {
                 caption,
                 photographer,
-                dateTaken
+                dateTaken,
+                showId
             });
             renderMessages(container, result);
 
@@ -138,7 +192,8 @@ export function renderPhotoUpload(onUploadComplete) {
             preview.innerHTML = "";
             captionInput.value = "";
             photographerInput.value = "";
-            dateTakenInput.value = "";
+            dateTakenInput.valueAsDate = new Date();
+            showSelect.value = "";
             fileInput.value = "";
             confirmBtn.disabled = true;
             confirmBtn.textContent = "Done!";
