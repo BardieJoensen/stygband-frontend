@@ -7,8 +7,6 @@ export function renderPhotoEditForm(photo) {
     const form = document.createElement("form");
     container.appendChild(form);
 
-    const 
-
     container.appendChild(form);
 
     return container;

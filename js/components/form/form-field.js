@@ -9,10 +9,16 @@ export function renderFormField(labelText, inputConfig) {
     const input = document.createElement("input");
     input.type = inputConfig.type;
     input.id = inputConfig.id;
+
     if (inputConfig.placeholder) input.placeholder = inputConfig.placeholder;
-    input.value = inputConfig.value ?? "";
     if (inputConfig.required) input.required = true;
 
+    // Default value support
+    if (inputConfig.value !== undefined) {
+        input.value = inputConfig.value;
+    }
+
     group.append(label, input);
-    return group;
-};
+
+    return { group, input };
+}

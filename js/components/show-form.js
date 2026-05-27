@@ -1,22 +1,26 @@
 import { createShow, updateShowById } from "../services/admin-show-service.js";
 import { renderFormField } from "./form/form-field.js";
+import { renderSubmitBtn } from "./form/submit-button.js";
+import { renderMessageBox } from "./form/message-box.js";
 
 export function renderShowForm(show = null, onComplete) {
     const isEdit = show !== null;
+
     const container = document.createElement("div");
     const form = document.createElement("form");
 
     const title = document.createElement("h2");
     title.textContent = isEdit ? "Edit Show" : "Add Show";
 
-    const dateField = renderFormField("Date", {
+    // --- Form fields ---
+    const { group: dateField, input: dateInput } = renderFormField("Date", {
         type: "date",
         id: "showDate",
         value: isEdit ? show.date : "",
         required: true,
     });
 
-    const cityField = renderFormField("City", {
+    const { group: cityField, input: cityInput } = renderFormField("City", {
         type: "text",
         id: "showCity",
         placeholder: "City",
@@ -24,7 +28,7 @@ export function renderShowForm(show = null, onComplete) {
         required: true,
     });
 
-    const venueField = renderFormField("Venue", {
+    const { group: venueField, input: venueInput } = renderFormField("Venue", {
         type: "text",
         id: "showVenue",
         placeholder: "Venue",
@@ -32,32 +36,34 @@ export function renderShowForm(show = null, onComplete) {
         required: true,
     });
 
-    const ticketLinkField = renderFormField("Ticket Link (optional)", {
+    const { group: ticketField, input: ticketInput } = renderFormField("Ticket Link (optional)", {
         type: "url",
         id: "showTicketLink",
         placeholder: "https://...",
         value: isEdit ? (show.ticketLink ?? "") : "",
     });
 
-    const submitBtn = document.createElement("button");
-    submitBtn.className = "btn";
-    submitBtn.id = "showSubmitBtn";
-    submitBtn.type = "submit";
-    submitBtn.textContent = isEdit ? "Save Changes" : "Add Show";
+    // --- Submit button ---
+    const submitBtn = renderSubmitBtn(isEdit ? "Save Changes" : "Add Show", {
+        id: "showSubmitBtn"
+    });
 
-    const msg = document.createElement("div");
-    msg.id = "showFormMessages";
+    // --- Message box ---
+    const msg = renderMessageBox("showFormMessages");
 
-    form.append(dateField, cityField, venueField, ticketLinkField, submitBtn);
+    // --- Assemble form ---
+    form.append(dateField, cityField, venueField, ticketField, submitBtn);
     container.append(title, form, msg);
 
+    // --- Submit handler ---
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
+
         const showData = {
-            date:       container.querySelector("#showDate").value,
-            city:       container.querySelector("#showCity").value,
-            venue:      container.querySelector("#showVenue").value,
-            ticketLink: container.querySelector("#showTicketLink").value || null,
+            date: dateInput.value,
+            city: cityInput.value,
+            venue: venueInput.value,
+            ticketLink: ticketInput.value || null,
         };
 
         submitBtn.disabled = true;
@@ -71,7 +77,7 @@ export function renderShowForm(show = null, onComplete) {
                 await createShow(showData);
             }
 
-            if (onComplete) onComplete();
+            onComplete?.();
 
             submitBtn.textContent = "Done!";
             setTimeout(() => {
@@ -84,6 +90,7 @@ export function renderShowForm(show = null, onComplete) {
             errP.classList.add("error");
             errP.textContent = err.message;
             msg.appendChild(errP);
+
             submitBtn.disabled = false;
             submitBtn.textContent = isEdit ? "Save Changes" : "Add Show";
         }
