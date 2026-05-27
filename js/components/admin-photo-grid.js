@@ -2,6 +2,7 @@ import { BASE_URL } from "../api.js";
 import { TrashIcon, SquarePenIcon } from "./icons.js";
 import { deletePhoto } from "../services/photo-service.js";
 import { openModal } from "./modal.js";
+import { renderPhotoEditForm } from "./photo-form.js";
 
 export function renderAdminPhotoGrid(photos) {
     const safePhotos = Array.isArray(photos) ? photos : [];
@@ -24,29 +25,52 @@ export function renderAdminPhotoGrid(photos) {
 }
 
 function renderAdminPhotoCard(photo, photos) {
+    // Wrap photo in a mutable object so closures always see the latest version
+    const state = { photo };
+
     const card = document.createElement('div');
     card.classList.add('admin-photo-card');
 
-    card.appendChild(renderActions(photo, card, photos));
-    card.appendChild(renderImage(photo, photos));
-    card.appendChild(renderMetadata(photo));
+    const onPhotoUpdated = (updatedPhoto) => {
+        // Update global array
+        const index = photos.findIndex(p => p.id === updatedPhoto.id);
+        if (index !== -1) {
+            photos[index] = updatedPhoto;
+        }
+
+        // Update local state
+        state.photo = updatedPhoto;
+
+        // Re-sort photos by dateTaken (descending)
+        photos.sort((a, b) => new Date(b.dateTaken) - new Date(a.dateTaken));
+
+        // Re-render entire grid
+        const grid = card.closest('.admin-photo-grid');
+        const newGrid = renderAdminPhotoGrid(photos);
+        grid.replaceWith(newGrid);
+    };
+
+    // Build card using state.photo (never the original photo)
+    card.appendChild(renderActions(state, card, photos, onPhotoUpdated));
+    card.appendChild(renderImage(state, photos));
+    card.appendChild(renderMetadata(state.photo));
 
     return card;
 }
 
-function renderActions(photo, card, photos) {
+function renderActions(state, card, photos, onPhotoUpdated) {
     const actions = document.createElement('div');
     actions.classList.add('admin-photo-actions');
 
-    // Add action buttons to the actions container
     const editBtn = document.createElement('button');
     editBtn.type = 'button';
     editBtn.classList.add('btn', 'icon-btn');
     editBtn.setAttribute('aria-label', 'Edit photo');
     editBtn.appendChild(SquarePenIcon());
-    editBtn.onclick = () => {
+
+    editBtn.onclick = async () => {
         try {
-            const editUI = renderPhotoEditForm(photo);
+            const editUI = await renderPhotoEditForm(state.photo, onPhotoUpdated);
             openModal(editUI);
         } catch (err) {
             console.error("Failed to initialize edit form:", err);
@@ -61,6 +85,7 @@ function renderActions(photo, card, photos) {
     deleteBtn.classList.add('btn', 'icon-btn');
     deleteBtn.setAttribute('aria-label', 'Delete photo');
     deleteBtn.appendChild(TrashIcon());
+
     deleteBtn.onclick = async () => {
         if (!confirm("Are you sure you want to delete this photo? This action cannot be undone.")) {
             return;
@@ -69,9 +94,10 @@ function renderActions(photo, card, photos) {
         deleteBtn.disabled = true;
 
         try {
-            await deletePhoto(photo.id);
+            await deletePhoto(state.photo.id);
             card.remove();
-            const photoIndex = photos.indexOf(photo);
+
+            const photoIndex = photos.indexOf(state.photo);
             if (photoIndex !== -1) {
                 photos.splice(photoIndex, 1);
             }
@@ -80,6 +106,7 @@ function renderActions(photo, card, photos) {
             alert(`Delete failed: ${err.message}`);
         }
     };
+
     actions.appendChild(deleteBtn);
 
     return actions;
@@ -108,7 +135,9 @@ function renderMetadata(photo) {
     return metadata;
 }
 
-function renderImage(photo, photos) {
+function renderImage(state, photos) {
+    const photo = state.photo;
+
     const wrapper = document.createElement('button');
     wrapper.type = 'button';
     wrapper.classList.add('photo-grid-item');
@@ -143,8 +172,9 @@ function renderImage(photo, photos) {
     wrapper.appendChild(img);
 
     wrapper.addEventListener('click', () => {
-        const currentIndex = photos.indexOf(photo);
+        const currentIndex = photos.indexOf(state.photo);
         if (currentIndex === -1) return;
+
         document.dispatchEvent(new CustomEvent('open-lightbox', {
             detail: { photos, index: currentIndex }
         }));
