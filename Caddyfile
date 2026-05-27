@@ -6,12 +6,5 @@
 	@health path /healthz
 	respond @health "ok" 200
 
-	# Force revalidation on every request so a deploy is picked up immediately.
-	# Caddy still sends ETag / Last-Modified, so revalidation costs one tiny
-	# 304 round-trip per file — full re-downloads only happen when content
-	# actually changed. Without this, ES-module imports silently kept serving
-	# old code after deploys.
-	header Cache-Control "no-cache"
-
 	file_server
 }
