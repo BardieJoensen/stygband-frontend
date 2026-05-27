@@ -60,7 +60,7 @@ export function renderShowRows(shows, showPast = false, isAdmin = false, onEdit,
             actions.appendChild(btn);
         }
 
-        if (showPast && show.hasPhotos) {
+        if (show.hasPhotos) {
             const link = document.createElement('a');
             link.href = `/photos?showId=${show.id}`;
             link.textContent = 'Photos';

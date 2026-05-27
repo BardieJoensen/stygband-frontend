@@ -13,6 +13,8 @@ const routes = {
     '/admin/dashboard': { module: './pages/dashboard.js', auth: true, layout: 'admin' },
     '/admin/photos': { module: './pages/photo-management.js', auth: true, layout: 'admin' },
     '/admin/shows': { module: './pages/show-management.js', auth: true, layout: 'admin' },
+    '/admin/contact': { module: './pages/contact-management.js', auth: true, layout: 'admin' },
+    '/admin/about': { module: './pages/about-management.js', auth: true, layout: 'admin' },
 };
 
 const anchorRoutes = {
