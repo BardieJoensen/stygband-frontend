@@ -86,7 +86,7 @@ export async function renderPhotoUpload(onUploadComplete) {
             if (selectedShow) {
                 dateTakenInput.value = selectedShow.date;
             } else {
-                dateTakenInput.valueAsDate = new Date();
+                dateTakenInput.value = today;
             }
         });
     }
@@ -189,7 +189,7 @@ export async function renderPhotoUpload(onUploadComplete) {
             preview.innerHTML = "";
             captionInput.value = "";
             photographerInput.value = "";
-            dateTakenInput.valueAsDate = new Date();
+            dateTakenInput.value = today;
             showSelect.value = "";
             fileInput.value = "";
             confirmBtn.disabled = true;
