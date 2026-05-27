@@ -44,17 +44,15 @@ function renderActions(photo, card, photos) {
     editBtn.classList.add('btn', 'icon-btn');
     editBtn.setAttribute('aria-label', 'Edit photo');
     editBtn.appendChild(SquarePenIcon());
-    editBtn.onclick = async () => {
+    editBtn.onclick = () => {
         try {
-            const editUI = document.createElement('p');
-            editUI.textContent = 'Edit photo form would be displayed here.';
+            const editUI = renderPhotoEditForm(photo);
             openModal(editUI);
         } catch (err) {
             console.error("Failed to initialize edit form:", err);
             alert("Could not open edit form. Please try again.");
         }
     };
-
 
     actions.appendChild(editBtn);
 

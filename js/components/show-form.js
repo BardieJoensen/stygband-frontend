@@ -1,6 +1,6 @@
 import { createShow, updateShowById } from "../services/admin-show-service.js";
 import { renderFormField } from "./form/form-field.js";
-import { renderSubmitBtn } from "./form/submit-button.js";
+import { renderSubmitBtn } from "./form/submit-btn.js";
 import { renderMessageBox } from "./form/message-box.js";
 
 export function renderShowForm(show = null, onComplete) {
