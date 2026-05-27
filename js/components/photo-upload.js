@@ -253,7 +253,7 @@ function renderMessages(container, result) {
 
         result.errors.forEach(err => {
             const errP = document.createElement("p");
-            errP.textContent = `${err.filename}: ${err.reason} `;
+            errP.textContent = `${err.filename}: ${err.reason}`;
             msg.appendChild(errP);
         });
     }
