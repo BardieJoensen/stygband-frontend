@@ -1,64 +1,61 @@
 import { uploadPhotos } from "../services/photo-service.js";
 import { getShows } from "../services/show-service.js";
+import { renderFormField } from "./form/form-field.js";
+import { renderSelectFormField } from "./form/select-form-field.js";
+import { renderUploadArea } from "./form/upload-area.js";
+import { renderSubmitBtn } from "./form/submit-btn.js";
+import { renderMessageBox } from "./form/message-box.js";
 
 export async function renderPhotoUpload(onUploadComplete) {
     const container = document.createElement("div");
     container.classList.add("photo-upload");
 
-    container.innerHTML = `
-        <form id="photoUploadForm">
-            <h2>Upload Photos</h2>
+    const formHeader = document.createElement("h2");
+    formHeader.textContent = "Upload Photos";
+    container.appendChild(formHeader);
 
-            <div class="form-field">
-                <label for="showSelect">Associated Show (optional)</label>
-                <select id="showSelect">
-                    <option value="">-- None --</option>
-                </select>
-            </div>
+    const form = document.createElement("form");
+    form.id = "photoUploadForm";
+    container.appendChild(form);
 
-            <div class="form-field">
-                <label for="dateTakenInput">Date Taken</label>
-                <input 
-                    type="date" 
-                    id="dateTakenInput"
-                    required
-                >
-            </div>
+    const { group: showSelectField, select: showSelect } =
+        renderSelectFormField("Associated Show (optional)", {
+            id: "showSelect",
+            options: [{ value: "", text: "-- None --" }]
+        });
+    form.appendChild(showSelectField);
 
-            <div class="form-field">
-                <label for="photographerInput">Photographer (optional)</label>
-                <input 
-                    type="text" 
-                    id="photographerInput" 
-                    placeholder="Enter photographer"
-                >
-            </div>
+    const today = new Date().toISOString().split("T")[0];
+    const { group: dateTakenField, input: dateTakenInput } = renderFormField("Date Taken", {
+        type: "date",
+        id: "dateTakenInput",
+        required: true,
+        value: today
+    });
+    form.appendChild(dateTakenField);
 
-            <div class="form-field">
-                <label for="captionInput">Caption (optional)</label>
-                <input 
-                    type="text" 
-                    id="captionInput" 
-                    placeholder="Enter caption"
-                >
-            </div>
+    const { group: photographerField, input: photographerInput } = renderFormField("Photographer (optional)", {
+        type: "text",
+        id: "photographerInput",
+        placeholder: "Enter photographer"
+    });
+    form.appendChild(photographerField);
 
-            <label class="upload-area" id="uploadArea" tabindex="0">
-                <span>Tap or drop photos here</span>
-                <input type="file" id="photoFiles" multiple accept="image/*" capture="environment">
-            </label>
+    const { group: captionField, input: captionInput } = renderFormField("Caption (optional)", {
+        type: "text",
+        id: "captionInput",
+        placeholder: "Enter caption"
+    });
+    form.appendChild(captionField);
 
-            <div id="preview" class="preview"></div>
-
-            <button id="confirmUploadBtn" class="btn" type="submit" disabled>Upload</button>
-            <div id="uploadMessages"></div>
-        </form>
-    `;
-
-    const form = container.querySelector("#photoUploadForm");
-    const showSelect = container.querySelector("#showSelect");
-    const dateTakenInput = container.querySelector("#dateTakenInput");
-    dateTakenInput.valueAsDate = new Date(); // default to today
+    const { group: uploadField, input: fileInput, wrapper: uploadArea, preview } =
+        renderUploadArea("Photos", {
+            id: "uploadArea",
+            inputId: "photoFiles",
+            accept: "image/*",
+            capture: "environment"
+        });
+    form.appendChild(uploadField);
 
     let shows = [];
     try {
@@ -89,19 +86,19 @@ export async function renderPhotoUpload(onUploadComplete) {
             if (selectedShow) {
                 dateTakenInput.value = selectedShow.date;
             } else {
-                dateTakenInput.valueAsDate = new Date();
+                dateTakenInput.value = today;
             }
         });
     }
 
-    const photographerInput = container.querySelector("#photographerInput");
-    const captionInput = container.querySelector("#captionInput");
+    const confirmBtn = renderSubmitBtn("Upload", {
+        id: "confirmUploadBtn",
+        disabled: true
+    });
+    form.appendChild(confirmBtn);
 
-    const fileInput = container.querySelector("#photoFiles");
-    const uploadArea = container.querySelector("#uploadArea");
-    const preview = container.querySelector("#preview");
-    const confirmBtn = container.querySelector("#confirmUploadBtn");
-    const msg = container.querySelector("#uploadMessages");
+    const msg = renderMessageBox("uploadMessages");
+    form.appendChild(msg);
 
     let selectedFiles = [];
 
@@ -192,7 +189,7 @@ export async function renderPhotoUpload(onUploadComplete) {
             preview.innerHTML = "";
             captionInput.value = "";
             photographerInput.value = "";
-            dateTakenInput.valueAsDate = new Date();
+            dateTakenInput.value = today;
             showSelect.value = "";
             fileInput.value = "";
             confirmBtn.disabled = true;
@@ -243,7 +240,7 @@ function renderMessages(container, result) {
         const uploadedStrong = document.createElement("strong");
         uploadedStrong.textContent = "Uploaded:";
         uploadedP.appendChild(uploadedStrong);
-        uploadedP.append(` ${result.uploaded.length}`);
+        uploadedP.append(` ${result.uploaded.length} `);
         msg.appendChild(uploadedP);
     }
 

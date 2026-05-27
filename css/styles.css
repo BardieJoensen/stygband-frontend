@@ -222,6 +222,12 @@ select:focus-visible {
 }
 
 /* forms */
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .form-field {
     display: flex;
     flex-direction: column;
@@ -1362,12 +1368,6 @@ select:focus-visible {
 /* ---------------------------------------
     UPLOAD AREA
 ---------------------------------------- */
-.photo-upload {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
 
 .upload-area {
     display: block;

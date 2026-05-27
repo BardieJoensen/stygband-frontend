@@ -47,6 +47,11 @@ export function renderAdminHeader() {
             contactLink.textContent = "Contact";
             nav.appendChild(contactLink);
 
+            const aboutLink = document.createElement('a');
+            aboutLink.href = "#/admin/about";
+            aboutLink.textContent = "About";
+            nav.appendChild(aboutLink);
+
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'btn';
