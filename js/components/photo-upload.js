@@ -200,7 +200,7 @@ export async function renderPhotoUpload(onUploadComplete) {
             msg.replaceChildren();
             const errorP = document.createElement("p");
             errorP.classList.add("error");
-            errorP.textContent = `Upload failed: ${err.message} `;
+            errorP.textContent = `Upload failed: ${err.message}`;
             msg.appendChild(errorP);
             confirmBtn.disabled = false;
             confirmBtn.textContent = "Upload";
