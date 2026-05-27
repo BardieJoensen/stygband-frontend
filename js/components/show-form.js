@@ -1,4 +1,5 @@
 import { createShow, updateShowById } from "../services/admin-show-service.js";
+import { renderFormField } from "./form/form-field.js";
 
 export function renderShowForm(show = null, onComplete) {
     const isEdit = show !== null;
@@ -8,33 +9,14 @@ export function renderShowForm(show = null, onComplete) {
     const title = document.createElement("h2");
     title.textContent = isEdit ? "Edit Show" : "Add Show";
 
-    const generateFormField = (labelText, inputConfig) => {
-        const group = document.createElement("div");
-        group.className = "form-field";
-
-        const label = document.createElement("label");
-        label.textContent = labelText;
-        label.htmlFor = inputConfig.id;
-
-        const input = document.createElement("input");
-        input.type = inputConfig.type;
-        input.id = inputConfig.id;
-        if (inputConfig.placeholder) input.placeholder = inputConfig.placeholder;
-        input.value = inputConfig.value ?? "";
-        if (inputConfig.required) input.required = true;
-
-        group.append(label, input);
-        return group;
-    };
-
-    const dateField = generateFormField("Date", {
+    const dateField = renderFormField("Date", {
         type: "date",
         id: "showDate",
         value: isEdit ? show.date : "",
         required: true,
     });
 
-    const cityField = generateFormField("City", {
+    const cityField = renderFormField("City", {
         type: "text",
         id: "showCity",
         placeholder: "City",
@@ -42,7 +24,7 @@ export function renderShowForm(show = null, onComplete) {
         required: true,
     });
 
-    const venueField = generateFormField("Venue", {
+    const venueField = renderFormField("Venue", {
         type: "text",
         id: "showVenue",
         placeholder: "Venue",
@@ -50,7 +32,7 @@ export function renderShowForm(show = null, onComplete) {
         required: true,
     });
 
-    const ticketLinkField = generateFormField("Ticket Link (optional)", {
+    const ticketLinkField = renderFormField("Ticket Link (optional)", {
         type: "url",
         id: "showTicketLink",
         placeholder: "https://...",
