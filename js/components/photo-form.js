@@ -77,7 +77,6 @@ export async function renderPhotoEditForm(photo, onComplete) {
                 dateTakenInput.value = selectedShow.date;
             }
         });
-        });
     }
 
     showSelect.value = photo.show?.id || "";
@@ -107,8 +106,7 @@ export async function renderPhotoEditForm(photo, onComplete) {
 
         try {
             const updatedPhoto = await updatePhotoById(photo.id, photoData);
-            
-            onComplete?.(updatedPhoto);
+            await onComplete?.(updatedPhoto);
 
             submitBtn.textContent = "Done!";
             setTimeout(() => {

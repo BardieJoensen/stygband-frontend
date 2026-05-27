@@ -110,10 +110,6 @@ function renderActions(state, card, photos, onPhotoUpdated) {
             deleteBtn.disabled = false;
             alert(`Delete failed: ${err.message}`);
         }
-        } catch (err) {
-            deleteBtn.disabled = false;
-            alert(`Delete failed: ${err.message}`);
-        }
     };
 
     actions.appendChild(deleteBtn);
