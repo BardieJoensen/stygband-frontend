@@ -1,4 +1,3 @@
-// /components/form/submit-button.js
 export function renderSubmitBtn(text = "Submit", config = {}) {
     const btn = document.createElement("button");
     btn.type = "submit";
