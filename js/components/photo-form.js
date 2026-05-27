@@ -66,7 +66,7 @@ export async function renderPhotoEditForm(photo, onComplete) {
         shows.forEach(show => {
             const option = document.createElement("option");
             option.value = show.id;
-            option.textContent = `${show.date} - ${show.city} @ ${show.venue} `;
+            option.textContent = `${show.date} - ${show.city} @ ${show.venue}`;
             showSelect.appendChild(option);
         });
 
