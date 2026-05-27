@@ -95,12 +95,21 @@ function renderActions(state, card, photos, onPhotoUpdated) {
 
         try {
             await deletePhoto(state.photo.id);
-            card.remove();
-
             const photoIndex = photos.indexOf(state.photo);
             if (photoIndex !== -1) {
                 photos.splice(photoIndex, 1);
             }
+
+            const grid = card.closest('.admin-photo-grid');
+            if (grid && photos.length === 0) {
+                grid.replaceWith(renderAdminPhotoGrid(photos));
+            } else {
+                card.remove();
+            }
+        } catch (err) {
+            deleteBtn.disabled = false;
+            alert(`Delete failed: ${err.message}`);
+        }
         } catch (err) {
             deleteBtn.disabled = false;
             alert(`Delete failed: ${err.message}`);

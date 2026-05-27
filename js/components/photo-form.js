@@ -75,9 +75,8 @@ export async function renderPhotoEditForm(photo, onComplete) {
             const selectedShow = shows.find(s => String(s.id) === showSelect.value);
             if (selectedShow) {
                 dateTakenInput.value = selectedShow.date;
-            } else {
-                dateTakenInput.value = new Date().toISOString().split("T")[0];
             }
+        });
         });
     }
 

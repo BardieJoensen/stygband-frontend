@@ -77,7 +77,7 @@ export function renderShowForm(show = null, onComplete) {
                 await createShow(showData);
             }
 
-            onComplete?.();
+            await onComplete?.();
 
             submitBtn.textContent = "Done!";
             setTimeout(() => {
