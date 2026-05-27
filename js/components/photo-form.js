@@ -54,7 +54,7 @@ export async function renderPhotoEditForm(photo, onComplete) {
             shows = loadedShows;
         }
     } catch (error) {
-        console.error("Failed to load shows for photo upload:", error);
+        console.error("Failed to load shows for photo edit:", error);
         showSelect.disabled = true;
         const showField = showSelect.closest(".form-field");
         if (showField) {
