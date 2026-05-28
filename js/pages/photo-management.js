@@ -28,7 +28,7 @@ function createActionContainer(loadPhotos) {
     const batchBtn = document.createElement("button");
     batchBtn.id = "batchEditBtn";
     batchBtn.classList.add("btn", "hidden");
-    batchBtn.textContent = "Batch Edit";
+    batchBtn.textContent = "Edit Selected";
 
     batchBtn.onclick = async() => {
         openModal(await renderBatchPhotoEditForm(currentSelectionState, async () => await loadPhotos()));
