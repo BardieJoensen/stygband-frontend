@@ -4,6 +4,7 @@ import { renderAdminPhotoGrid } from "../components/admin-photo-grid.js";
 import { getPhotos } from "../services/photo-service.js";
 import { PlusIcon } from "../components/icons.js";
 import { createLightbox, openLightbox } from "../components/lightbox.js";
+import { renderBatchPhotoEditForm } from "../components/batch-photo-edit-form.js";
 
 // Ensure lightbox setup is idempotent across dynamically imported page modules.
 if (!document.querySelector('.lightbox-overlay')) {
@@ -17,17 +18,30 @@ if (!window.__openLightboxListenerRegistered) {
     window.__openLightboxListenerRegistered = true;
 }
 
+let currentSelectionState = null;
+
 function createActionContainer(loadPhotos) {
     const actionContainer = document.createElement("div");
     actionContainer.id = "actionContainer";
 
-    const btn = document.createElement("button");
-    btn.id = "openUploadModal";
-    btn.classList.add("btn");
-    btn.appendChild(PlusIcon());
-    btn.append("Add Photos");
+    // Batch Edit button
+    const batchBtn = document.createElement("button");
+    batchBtn.id = "batchEditBtn";
+    batchBtn.classList.add("btn", "hidden");
+    batchBtn.textContent = "Batch Edit";
 
-    btn.onclick = async () => {
+    batchBtn.onclick = async() => {
+        openModal(await renderBatchPhotoEditForm(currentSelectionState, async () => await loadPhotos()));
+    };
+
+    // Add Photos button
+    const addBtn = document.createElement("button");
+    addBtn.id = "openUploadModal";
+    addBtn.classList.add("btn");
+    addBtn.appendChild(PlusIcon());
+    addBtn.append("Add Photos");
+
+    addBtn.onclick = async () => {
         try {
             const uploadUI = await renderPhotoUpload(loadPhotos);
             openModal(uploadUI);
@@ -37,7 +51,9 @@ function createActionContainer(loadPhotos) {
         }
     };
 
-    actionContainer.appendChild(btn);
+    actionContainer.appendChild(batchBtn);
+    actionContainer.appendChild(addBtn);
+
     return actionContainer;
 }
 
@@ -52,6 +68,34 @@ function createPageHeader(loadPhotos) {
 }
 
 export async function render(container) {
+    const selectionState = {
+        selectedIds: new Set(),
+
+        add(id) {
+            this.selectedIds.add(id);
+            this.onChange();
+        },
+
+        delete(id) {
+            this.selectedIds.delete(id);
+            this.onChange();
+        },
+
+        onChange() {
+            const batchBtn = document.getElementById("batchEditBtn");
+            if (batchBtn) {
+                batchBtn.classList.toggle("hidden", this.selectedIds.size === 0);
+            }
+        },
+
+        clear() {
+            this.selectedIds.clear();
+            this.onChange();
+        }
+    };
+
+    currentSelectionState = selectionState;
+
     container.appendChild(createPageHeader(loadPhotos));
 
     const gridContainer = document.createElement("div");
@@ -70,7 +114,7 @@ async function loadPhotos() {
         const photos = await getPhotos();
 
         gridContainer.innerHTML = "";
-        gridContainer.appendChild(renderAdminPhotoGrid(photos));
+        gridContainer.appendChild(renderAdminPhotoGrid(photos, currentSelectionState));
     } catch (error) {
         console.error("Failed to load photos:", error);
         gridContainer.replaceChildren();

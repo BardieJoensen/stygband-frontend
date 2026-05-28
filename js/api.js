@@ -129,6 +129,10 @@ export function authUpdateJson(endpoint, data) {
     return authPostJson(endpoint, data, "PUT");
 }
 
+export function authPatchJson(endpoint, data) {
+    return authPostJson(endpoint, data, "PATCH");
+}
+
 export function authDelete(endpoint) {
     return request(endpoint, { method: "DELETE" }, true);
 }

@@ -1,4 +1,4 @@
-import { fetchJson, authPostFormData, authUpdateJson, authDelete } from "../api.js";
+import { fetchJson, authPostFormData, authUpdateJson, authPatchJson, authDelete } from "../api.js";
 
 export function getPhotos(showId = null) {
     let url = '/api/photos';
@@ -43,6 +43,10 @@ export async function uploadPhotos(files, meta = {}) {
 
 export function updatePhotoById(photoId, photoData) {
     return authUpdateJson(`/api/admin/photos/${encodeURIComponent(photoId)}`, photoData);
+}
+
+export function batchUpdatePhotos(updates) {
+    return authPatchJson("/api/admin/photos", updates);
 }
 
 export async function deletePhoto(photoId) {

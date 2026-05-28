@@ -4,7 +4,7 @@ import { deletePhoto } from "../services/photo-service.js";
 import { openModal } from "./modal.js";
 import { renderPhotoEditForm } from "./photo-form.js";
 
-export function renderAdminPhotoGrid(photos) {
+export function renderAdminPhotoGrid(photos, selectionState) {
     const safePhotos = Array.isArray(photos) ? photos : [];
 
     if (safePhotos.length === 0) {
@@ -18,18 +18,30 @@ export function renderAdminPhotoGrid(photos) {
     grid.classList.add('admin-photo-grid');
 
     safePhotos.forEach((photo) => {
-        grid.appendChild(renderAdminPhotoCard(photo, safePhotos));
+        grid.appendChild(renderAdminPhotoCard(photo, safePhotos, selectionState));
     });
 
     return grid;
 }
 
-function renderAdminPhotoCard(photo, photos) {
+function renderAdminPhotoCard(photo, photos, selectionState) {
     // Wrap photo in a mutable object so closures always see the latest version
     const state = { photo };
 
     const card = document.createElement('div');
     card.classList.add('admin-photo-card');
+
+    // Selection checkbox
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.classList.add('photo-select-checkbox');
+    checkbox.checked = selectionState.selectedIds.has(state.photo.id);
+    checkbox.onchange = () => {
+        if (checkbox.checked) selectionState.add(state.photo.id);
+        else selectionState.delete(state.photo.id);
+    };
+
+    card.appendChild(checkbox);
 
     const onPhotoUpdated = (updatedPhoto) => {
         // Update global array
@@ -46,19 +58,19 @@ function renderAdminPhotoCard(photo, photos) {
 
         // Re-render entire grid
         const grid = card.closest('.admin-photo-grid');
-        const newGrid = renderAdminPhotoGrid(photos);
+        const newGrid = renderAdminPhotoGrid(photos, selectionState);
         grid.replaceWith(newGrid);
     };
 
     // Build card using state.photo (never the original photo)
-    card.appendChild(renderActions(state, card, photos, onPhotoUpdated));
+    card.appendChild(renderActions(state, card, photos, onPhotoUpdated, selectionState));
     card.appendChild(renderImage(state, photos));
     card.appendChild(renderMetadata(state.photo));
 
     return card;
 }
 
-function renderActions(state, card, photos, onPhotoUpdated) {
+function renderActions(state, card, photos, onPhotoUpdated, selectionState) {
     const actions = document.createElement('div');
     actions.classList.add('admin-photo-actions');
 
@@ -95,6 +107,7 @@ function renderActions(state, card, photos, onPhotoUpdated) {
 
         try {
             await deletePhoto(state.photo.id);
+            selectionState.delete(state.photo.id);
             const photoIndex = photos.indexOf(state.photo);
             if (photoIndex !== -1) {
                 photos.splice(photoIndex, 1);
@@ -102,7 +115,7 @@ function renderActions(state, card, photos, onPhotoUpdated) {
 
             const grid = card.closest('.admin-photo-grid');
             if (grid && photos.length === 0) {
-                grid.replaceWith(renderAdminPhotoGrid(photos));
+                grid.replaceWith(renderAdminPhotoGrid(photos, selectionState));
             } else {
                 card.remove();
             }
