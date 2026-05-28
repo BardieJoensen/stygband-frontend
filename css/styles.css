@@ -250,46 +250,6 @@ form {
 }
 
 /* ---------------------------------------
-    BATCH PHOTO EDIT
----------------------------------------- */
-
-#batchPhotoEditForm {
-    gap: var(--space-md);
-}
-
-.batch-field-wrapper {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-areas:
-        "toggle label"
-        "field field";
-    column-gap: var(--space-sm);
-    row-gap: var(--space-sm);
-    align-items: start;
-    padding: var(--space-md);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-}
-
-.apply-toggle {
-    grid-area: toggle;
-    width: 1rem;
-    height: 1rem;
-    margin-top: 0.25rem;
-    accent-color: var(--color-text-primary);
-}
-
-.batch-field-wrapper > label {
-    grid-area: label;
-    cursor: pointer;
-}
-
-.batch-field-wrapper .form-field {
-    grid-area: field;
-    margin-bottom: 0;
-}
-
-/* ---------------------------------------
     HEADER
 ---------------------------------------- */
 
@@ -1495,4 +1455,44 @@ form {
     height: 80px;
     object-fit: cover;
     border-radius: var(--radius-sm);
+}
+
+/* ---------------------------------------
+    BATCH PHOTO EDIT
+---------------------------------------- */
+
+#batchPhotoEditForm {
+    gap: var(--space-md);
+}
+
+.batch-field-wrapper {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+        "toggle label"
+        "field field";
+    column-gap: var(--space-sm);
+    row-gap: var(--space-sm);
+    align-items: start;
+    padding: var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.apply-toggle {
+    grid-area: toggle;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.25rem;
+    accent-color: var(--color-text-primary);
+}
+
+.batch-field-wrapper > label {
+    grid-area: label;
+    cursor: pointer;
+}
+
+.batch-field-wrapper .form-field {
+    grid-area: field;
+    margin-bottom: 0;
 }
