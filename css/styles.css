@@ -1252,6 +1252,12 @@ form {
     margin: 0;
 }
 
+.page-header #actionContainer {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-sm);
+}
+
 @media (max-width: 768px) {
     .admin-layout {
         padding: 5rem 0 var(--space-lg);
@@ -1386,10 +1392,28 @@ form {
     background: var(--color-bg-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
+    position: relative;
 
     display: flex;
     flex-direction: column;
     overflow: hidden;
+}
+
+.photo-select-checkbox {
+    position: absolute;
+    top: var(--space-sm);
+    left: var(--space-sm);
+    z-index: 2;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin: 0;
+    accent-color: var(--color-text-primary);
+    cursor: pointer;
+}
+
+.photo-select-checkbox:focus-visible {
+    outline: 2px solid var(--color-text-primary);
+    outline-offset: 3px;
 }
 
 .admin-photo-actions {
