@@ -110,8 +110,9 @@ export async function renderBatchPhotoEditForm(selectionState, onComplete) {
 
             submitBtn.textContent = "Done!";
             setTimeout(() => {
-                document.dispatchEvent(new CustomEvent("modal-close"));
-            }, 800);
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Save Changes";
+            }, 1600);
 
         } catch (err) {
             const errP = document.createElement("p");

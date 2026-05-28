@@ -146,6 +146,15 @@ select:focus-visible {
     outline-offset: 2px;
 }
 
+input:disabled,
+textarea:disabled,
+select:disabled {
+    background: var(--color-input-bg);
+    border-color: var(--color-border);
+    color: var(--color-text-secondary);
+    cursor: not-allowed;
+}
+
 /* buttons */
 
 .btn {
@@ -238,6 +247,46 @@ form {
     margin-bottom: var(--space-xs);
     color: var(--color-text-primary);
     font-size: var(--font-size-base);
+}
+
+/* ---------------------------------------
+    BATCH PHOTO EDIT
+---------------------------------------- */
+
+#batchPhotoEditForm {
+    gap: var(--space-md);
+}
+
+.batch-field-wrapper {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+        "toggle label"
+        "field field";
+    column-gap: var(--space-sm);
+    row-gap: var(--space-sm);
+    align-items: start;
+    padding: var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.apply-toggle {
+    grid-area: toggle;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.25rem;
+    accent-color: var(--color-text-primary);
+}
+
+.batch-field-wrapper > label {
+    grid-area: label;
+    cursor: pointer;
+}
+
+.batch-field-wrapper .form-field {
+    grid-area: field;
+    margin-bottom: 0;
 }
 
 /* ---------------------------------------
