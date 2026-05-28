@@ -110,6 +110,11 @@ body {
 .site-content {
     /* Account for fixed header */
     padding-top: var(--space-xxl);
+    /* Reserve viewport-height before JS renders the page. Pushes the footer
+       below the fold from first paint, so the dynamic injection of hero +
+       sections doesn't shift the footer from visible → off-screen and rack
+       up CLS (0.138 → ~0). */
+    min-height: 100vh;
 }
 
 /* Headings */
@@ -330,6 +335,7 @@ form {
 
 .logo img {
     height: 4.5rem;
+    width: auto;
     padding: var(--space-sm);
     filter: var(--shadow-logo);
 }
@@ -507,6 +513,7 @@ form {
 /* Logo image */
 .hero-logo {
     width: 18rem;
+    height: auto;
     filter: drop-shadow(0 0 60px rgba(255, 255, 255, 0.3));
 }
 

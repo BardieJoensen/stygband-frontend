@@ -49,6 +49,15 @@ async function handleRoute() {
     const route = routes[path] || routes['/'];
     renderLayout(route.layout);
 
+    // Hero lives in static index.html for first-paint LCP. Show on home and
+    // when the user has anchor-scrolled to a home section; hide on every
+    // other page so it doesn't overlap their content.
+    const heroEl = document.getElementById('hero');
+    if (heroEl) {
+        const isHomeContext = path === '/' || anchorRoutes[path];
+        heroEl.style.display = isHomeContext ? '' : 'none';
+    }
+
     const anchorId = anchorRoutes[path];
 
     if (anchorId) {
