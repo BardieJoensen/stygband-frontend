@@ -17,7 +17,11 @@ export function renderBandBioForm(bio) {
     textarea.value = bio?.content ?? "";
     textarea.required = true;
 
-    group.append(label, textarea);
+    const hint = document.createElement("small");
+    hint.className = "form-hint";
+    hint.textContent = "Tip: link text like [Andelsslagteriet](https://…) will render as a clickable link.";
+
+    group.append(label, textarea, hint);
 
     const submitBtn = document.createElement("button");
     submitBtn.className = "btn";

@@ -1503,3 +1503,28 @@ form {
 .member-form-photo-status.error {
     color: var(--color-error, #c0392b);
 }
+
+/* ---------------------------------------
+    INLINE LINKS IN BIO TEXT
+---------------------------------------- */
+
+.band-bio a,
+.member-profile-bio a {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: var(--transition-color);
+}
+
+.band-bio a:hover,
+.member-profile-bio a:hover {
+    color: var(--color-text-secondary);
+}
+
+/* Hint text shown under bio textareas in admin forms */
+.form-hint {
+    margin-top: var(--space-xs);
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    line-height: 1.4;
+}

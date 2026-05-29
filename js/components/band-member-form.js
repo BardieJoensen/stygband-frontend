@@ -95,7 +95,10 @@ export function renderBandMemberForm(member, onComplete) {
     bioInput.rows = 6;
     bioInput.value = member.bio ?? "";
     bioInput.required = true;
-    bioGroup.append(bioLabel, bioInput);
+    const bioHint = document.createElement("small");
+    bioHint.className = "form-hint";
+    bioHint.textContent = "Tip: link text like [Other Band](https://…) will render as a clickable link.";
+    bioGroup.append(bioLabel, bioInput, bioHint);
 
     // --- Submit ---
     const submitBtn = document.createElement("button");

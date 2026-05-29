@@ -1,5 +1,6 @@
 import { navigate } from '../router.js';
 import {BASE_URL} from "../api.js";
+import { linkify } from '../utils/linkify.js';
 
 export function renderMemberProfile(member) {
   const section = document.createElement('section');
@@ -33,7 +34,7 @@ export function renderMemberProfile(member) {
   if (member.bio) {
     const bio = document.createElement('p');
     bio.className = 'member-profile-bio';
-    bio.textContent = member.bio;
+    bio.appendChild(linkify(member.bio));
     section.appendChild(bio);
   }
 
