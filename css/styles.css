@@ -1487,6 +1487,10 @@ form {
     accent-color: var(--color-text-primary);
 }
 
+.apply-toggle:focus-visible {
+    outline: 2px solid var(--color-text-primary);
+}
+
 .batch-field-wrapper > label {
     grid-area: label;
     cursor: pointer;
