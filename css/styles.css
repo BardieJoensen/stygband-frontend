@@ -1430,3 +1430,76 @@ form {
     object-fit: cover;
     border-radius: var(--radius-sm);
 }
+
+/* ---------------------------------------
+    ADMIN — BAND MEMBER MANAGEMENT
+---------------------------------------- */
+
+.admin-member-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    padding-block: 1rem;
+}
+
+.admin-member-row {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    text-align: center;
+}
+
+.admin-member-thumb {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+}
+
+.admin-member-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.admin-member-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.admin-member-info p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Edit form photo preview */
+.member-form-photo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.member-form-preview {
+    width: 100%;
+    max-width: 240px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    align-self: center;
+}
+
+.member-form-photo-status {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+.member-form-photo-status.error {
+    color: var(--color-error, #c0392b);
+}

@@ -15,6 +15,7 @@ const routes = {
     '/admin/shows': { module: './pages/show-management.js', auth: true, layout: 'admin' },
     '/admin/contact': { module: './pages/contact-management.js', auth: true, layout: 'admin' },
     '/admin/about': { module: './pages/about-management.js', auth: true, layout: 'admin' },
+    '/admin/band-members': { module: './pages/band-member-management.js', auth: true, layout: 'admin' },
 };
 
 const anchorRoutes = {
