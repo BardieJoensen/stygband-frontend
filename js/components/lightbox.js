@@ -149,7 +149,7 @@ function showImage(index) {
     img.classList.remove('loaded');
 
     const photo = photos[index];
-    img.src = `${BASE_URL}${photo.url}`;
+    img.src = `${BASE_URL}${photo.optimizedUrl ?? photo.url}`;
     img.alt = photo.caption || 'gallery photo';
 
     const captionText = photo.caption?.trim() || '';
@@ -173,8 +173,8 @@ function showImage(index) {
     const nextIndex = (currentIndex + 1) % photos.length;
     const prevIndex = (currentIndex - 1 + photos.length) % photos.length;
 
-    new Image().src = `${BASE_URL}${photos[nextIndex].url}`;
-    new Image().src = `${BASE_URL}${photos[prevIndex].url}`;
+    new Image().src = `${BASE_URL}${photos[nextIndex].optimizedUrl ?? photos[nextIndex].url}`;
+    new Image().src = `${BASE_URL}${photos[prevIndex].optimizedUrl ?? photos[prevIndex].url}`;
 }
 
 

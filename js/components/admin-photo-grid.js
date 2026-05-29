@@ -165,7 +165,7 @@ function renderImage(state, photos) {
     wrapper.appendChild(skeleton);
 
     const img = document.createElement('img');
-    img.src = `${BASE_URL}${photo.url}`;
+    img.src = `${BASE_URL}${photo.thumbnailUrl ?? photo.url}`;
     img.alt = photo.caption || 'gallery photo';
     img.loading = 'lazy';
 

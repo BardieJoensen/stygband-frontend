@@ -1,3 +1,5 @@
+import { linkify } from '../utils/linkify.js';
+
 export function renderBandBio(bio) {
     const section = document.createElement('section');
     section.className = 'band-bio';
@@ -6,7 +8,7 @@ export function renderBandBio(bio) {
 
     bio.content.split('\n\n').forEach(paragraph => {
         const p = document.createElement('p');
-        p.textContent = paragraph;
+        p.appendChild(linkify(paragraph));
         section.appendChild(p);
     });
 

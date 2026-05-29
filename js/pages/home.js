@@ -1,4 +1,3 @@
-import { renderHero } from '../components/hero.js';
 import { renderContactInfo } from '../components/contact-info.js';
 import { getUpcomingShows, getPastShows } from "../services/show-service.js";
 import { getContactInfo } from "../services/contact-service.js";
@@ -20,7 +19,9 @@ if (!window.__openLightboxListenerRegistered) {
 }
 
 export async function render(container, params) {
-    container.appendChild(renderHero());
+    // The hero is now static markup outside #content (in index.html) — it
+    // renders at first paint without waiting for JS, big LCP win. Router
+    // toggles its visibility per route.
 
     const [upcomingShows, pastShows, contact, photos] = await Promise.all([
         getUpcomingShows().catch(err => { console.error('Failed to load upcoming shows:', err); return []; }),

@@ -24,9 +24,10 @@ export function renderPhotoGrid(photos) {
         skeleton.classList.add('photo-skeleton');
         wrapper.appendChild(skeleton);
 
-        // Load the thumbnail from the API base URL.
+        // Load the thumbnail from the API base URL. Fall back to the original
+        // for older photos that pre-date thumbnail generation (null URL).
         const img = document.createElement('img');
-        img.src = `${BASE_URL}${photo.url}`;
+        img.src = `${BASE_URL}${photo.thumbnailUrl ?? photo.url}`;
         // Use the photo caption if available, otherwise a generic fallback.
         img.alt = photo.caption || 'gallery photo';
         img.loading = 'lazy'; // Hint to browser to lazy-load offscreen images
