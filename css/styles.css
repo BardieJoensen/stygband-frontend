@@ -110,6 +110,11 @@ body {
 .site-content {
     /* Account for fixed header */
     padding-top: var(--space-xxl);
+    /* Reserve viewport-height before JS renders the page. Pushes the footer
+       below the fold from first paint, so the dynamic injection of hero +
+       sections doesn't shift the footer from visible → off-screen and rack
+       up CLS (0.138 → ~0). */
+    min-height: 100vh;
 }
 
 /* Headings */
@@ -330,6 +335,7 @@ form {
 
 .logo img {
     height: 4.5rem;
+    width: auto;
     padding: var(--space-sm);
     filter: var(--shadow-logo);
 }
@@ -507,6 +513,7 @@ form {
 /* Logo image */
 .hero-logo {
     width: 18rem;
+    height: auto;
     filter: drop-shadow(0 0 60px rgba(255, 255, 255, 0.3));
 }
 
@@ -1187,7 +1194,10 @@ form {
 ---------------------------------------- */
 
 .admin-layout {
-    padding: var(--space-xxl) var(--space-xl) var(--space-lg);
+    /* Top header clearance is provided by .site-content's padding-top now
+       (since EKS-124 moved #content into a nested wrapper). Keeping a top
+       value here would stack a second space-xxl band on every admin page. */
+    padding: 0 var(--space-xl) var(--space-lg);
 }
 
 .page-header {
@@ -1422,4 +1432,102 @@ form {
     height: 80px;
     object-fit: cover;
     border-radius: var(--radius-sm);
+}
+
+/* ---------------------------------------
+    ADMIN — BAND MEMBER MANAGEMENT
+---------------------------------------- */
+
+.admin-member-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    padding-block: 1rem;
+}
+
+.admin-member-row {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    text-align: center;
+}
+
+.admin-member-thumb {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+}
+
+.admin-member-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.admin-member-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.admin-member-info p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Edit form photo preview */
+.member-form-photo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.member-form-preview {
+    width: 100%;
+    max-width: 240px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    align-self: center;
+}
+
+.member-form-photo-status {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+.member-form-photo-status.error {
+    color: var(--color-error, #c0392b);
+}
+
+/* ---------------------------------------
+    INLINE LINKS IN BIO TEXT
+---------------------------------------- */
+
+.band-bio a,
+.member-profile-bio a {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: var(--transition-color);
+}
+
+.band-bio a:hover,
+.member-profile-bio a:hover {
+    color: var(--color-text-secondary);
+}
+
+/* Hint text shown under bio textareas in admin forms */
+.form-hint {
+    margin-top: var(--space-xs);
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    line-height: 1.4;
 }
