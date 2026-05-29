@@ -1194,7 +1194,10 @@ form {
 ---------------------------------------- */
 
 .admin-layout {
-    padding: var(--space-xxl) var(--space-xl) var(--space-lg);
+    /* Top header clearance is provided by .site-content's padding-top now
+       (since EKS-124 moved #content into a nested wrapper). Keeping a top
+       value here would stack a second space-xxl band on every admin page. */
+    padding: 0 var(--space-xl) var(--space-lg);
 }
 
 .page-header {
