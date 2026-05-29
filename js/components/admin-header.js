@@ -52,6 +52,11 @@ export function renderAdminHeader() {
             aboutLink.textContent = "About";
             nav.appendChild(aboutLink);
 
+            const membersLink = document.createElement('a');
+            membersLink.href = "#/admin/band-members";
+            membersLink.textContent = "Members";
+            nav.appendChild(membersLink);
+
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'btn';
