@@ -97,7 +97,7 @@ export function renderBandMemberForm(member, onComplete) {
     bioInput.required = true;
     const bioHint = document.createElement("small");
     bioHint.className = "form-hint";
-    bioHint.textContent = "Tip: link text like [Other Band](https://…) will render as a clickable link.";
+    bioHint.textContent = "Tip: link text like [Other Band](https://example.com) will render as a clickable link.";
     bioGroup.append(bioLabel, bioInput, bioHint);
 
     // --- Submit ---
@@ -118,7 +118,6 @@ export function renderBandMemberForm(member, onComplete) {
             name: form.querySelector("#memberName").value,
             role: form.querySelector("#memberRole").value,
             bio: bioInput.value,
-            photoUrl: currentPhotoUrl,
         };
 
         submitBtn.disabled = true;

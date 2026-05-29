@@ -19,7 +19,7 @@ export function renderBandBioForm(bio) {
 
     const hint = document.createElement("small");
     hint.className = "form-hint";
-    hint.textContent = "Tip: link text like [Andelsslagteriet](https://…) will render as a clickable link.";
+    hint.textContent = "Tip: link text like [Andelsslagteriet](https://example.com) will render as a clickable link.";
 
     group.append(label, textarea, hint);
 

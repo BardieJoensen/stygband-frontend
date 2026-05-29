@@ -26,16 +26,24 @@ export function linkify(text) {
         const a = document.createElement('a');
         a.target = '_blank';
         a.rel = 'noopener noreferrer';
+        let trailing = '';
         if (match[1] !== undefined) {
             // [label](url) — group 1 is label, group 2 is url
             a.textContent = match[1];
             a.href = match[2];
         } else {
-            // bare URL — group 3
-            a.textContent = match[3];
-            a.href = match[3];
+            // Bare URL — strip trailing sentence punctuation so prose like
+            // "Check https://example.com." doesn't put the period in the href.
+            const raw = match[3];
+            const clean = raw.replace(/[.,!?:;)]+$/, '');
+            trailing = raw.slice(clean.length);
+            a.textContent = clean;
+            a.href = clean;
         }
         fragment.appendChild(a);
+        if (trailing) {
+            fragment.appendChild(document.createTextNode(trailing));
+        }
 
         lastIndex = match.index + match[0].length;
     }
