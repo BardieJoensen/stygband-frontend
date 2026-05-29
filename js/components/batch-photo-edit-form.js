@@ -46,7 +46,8 @@ export async function renderBatchPhotoEditForm(selectionState, onComplete) {
     // --- Date Taken ---
     const { group: dateGroup, input: dateInput } =
         renderFormField(null, {
-            type: "date"
+            type: "date",
+            required: true
         });
 
     const dateField = wrapOptionalField("Date Taken", dateGroup, () => dateInput.value);
