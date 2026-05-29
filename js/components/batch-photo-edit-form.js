@@ -23,7 +23,9 @@ export async function renderBatchPhotoEditForm(selectionState, onComplete) {
     // --- Show Select ---
     const { group: showGroup, select: showSelect } =
         renderSelectFormField(null, {
-            options: [{ value: "", text: "-- None --" }]
+            options: [
+                { value: "null", text: "-- None --" }   // explicit null
+            ]
         });
 
     let shows = [];
@@ -159,7 +161,17 @@ function wrapOptionalField(label, fieldGroup, getValueFn) {
         wrapper,
         getValue() {
             if (!applyToggle.checked) return undefined;
+
             const value = getValueFn();
+
+            // SELECT FIELD LOGIC
+            if (fieldGroup.querySelector("select")) {
+                if (value === "") return undefined;   // no selection
+                if (value === "null") return null;    // explicit clear
+                return Number(value);                         // selected showId
+            }
+
+            // TEXT/DATE FIELD LOGIC
             return value === "" ? null : value;
         }
     };
