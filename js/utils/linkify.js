@@ -7,7 +7,7 @@
 // HTML directly) would require a sanitizer. Building <a> elements
 // ourselves means the admin's URL only ever becomes an href attribute,
 // never executable markup.
-const LINK_PATTERN = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|(https?:\/\/[^\s<>"]+)/g;
+const LINK_PATTERN = /\[([^\]]+)]\((https?:\/\/[^\s)]+)\)|(https?:\/\/[^\s<>"]+)/g;
 
 export function linkify(text) {
     const fragment = document.createDocumentFragment();
