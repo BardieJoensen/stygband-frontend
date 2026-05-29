@@ -104,14 +104,13 @@ export async function renderBatchPhotoEditForm(selectionState, onComplete) {
 
         try {
             await batchUpdatePhotos(payload);
-            selectionState.clear();
 
             await onComplete?.(selectionState);
 
             submitBtn.textContent = "Done!";
             setTimeout(() => {
                 submitBtn.disabled = false;
-                submitBtn.textContent = "Save Changes";
+                submitBtn.textContent = "Apply Changes";
             }, 1600);
 
         } catch (err) {

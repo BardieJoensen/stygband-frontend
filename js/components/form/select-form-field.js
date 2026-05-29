@@ -2,9 +2,13 @@ export function renderSelectFormField(labelText, selectConfig) {
     const group = document.createElement("div");
     group.className = "form-field";
 
-    const label = document.createElement("label");
-    label.textContent = labelText;
-    label.htmlFor = selectConfig.id;
+    // Only render label if provided
+    if (labelText !== null && labelText !== undefined) {
+        const label = document.createElement("label");
+        label.textContent = labelText;
+        label.htmlFor = selectConfig.id;
+        group.appendChild(label);
+    }
 
     const select = document.createElement("select");
     select.id = selectConfig.id;
@@ -20,7 +24,7 @@ export function renderSelectFormField(labelText, selectConfig) {
         });
     }
 
-    group.append(label, select);
+    group.append(select);
 
     return { group, select };
 }
