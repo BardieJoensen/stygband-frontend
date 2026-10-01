@@ -12,7 +12,7 @@ export function renderFooter() {
             <a href="https://www.youtube.com/@stuggofficial6124" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
             <a href="https://open.spotify.com/artist/6faOKb101lzOAatluvBUNs" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
         </div>
-        <p class="footer-copy">© ${year} STÜGG. All rights reserved.</p>
+        <p class="footer-copy">© ${year} STYG. All rights reserved.</p>
     </div>
     `;
 
