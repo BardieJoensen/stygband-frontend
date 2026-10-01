@@ -40,7 +40,7 @@ export function renderContactForm(contact) {
     const bookingEmailField = generateFormField("Booking & Press Email", {
         type: "email",
         id: "contactBookingEmail",
-        placeholder: "booking@stugg.dk",
+        placeholder: "booking@stygband.dk",
         value: contact?.bookingEmail ?? "",
     });
 
